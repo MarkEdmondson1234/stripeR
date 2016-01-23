@@ -1,0 +1,21 @@
+Package: stripeR
+Type: Package
+Title: Interface for Stripe API for R
+Description: Allow users to pay in Shiny apps using Stripe payment portal.
+Version: 0.0.9000
+Authors@R: c(person("Mark", "Edmondson",email = "r@sunholo.com",
+                  role = c("aut", "cre")))
+URL: https://github.com/MarkEdmondson1234/stripeR
+BugReports: https://github.com/MarkEdmondson1234/stripeR/issues
+Depends:
+    R (>= 3.2.0)
+Imports:
+    httr (>= 1.0.0),
+    jsonlite (>= 0.9.16)
+Suggests:
+    shiny (>= 0.12.1),
+    knitr
+License: MIT + file LICENSE
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 5.0.1
