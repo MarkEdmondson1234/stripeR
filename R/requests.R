@@ -45,7 +45,8 @@ stripeR_init <- function(live=FALSE){
 do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
 
   arg_list <- list(url = url,
-                   body = the_body
+                   body = the_body,
+                   encode = "form"
   )
 
   if(!is.null(customConfig)){
@@ -55,9 +56,9 @@ do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
 
   }
 
-  if(!is.null(the_body)){
-    message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T))
-  }
+#   if(!is.null(the_body)){
+#     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T))
+#   }
 
   req <- retryRequest(do.call(request_type,
                               args = arg_list,
