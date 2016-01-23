@@ -2,6 +2,8 @@
 
 An interface with the [Stripe](https://stripe.com) API for user payments.  Intended for use within Shiny apps. 
 
+API docs: v
+
 ## Setup
 
 1. Sign up for a [Stripe account](https://dashboard.stripe.com/register) and get your API keys.  You will need to add a bank account and await approval.

@@ -17,7 +17,7 @@ Set up your Stripe API keys first via:
 
 \code{options('stripeR.secret_test') <- SECRET_TEST_KEY}
 \code{options('stripeR.secret_live') <- SECRET_LIVE_KEY}
-\code{options('stripeR.public_test') <- PUBLIC_TEST_KEY},
+\code{options('stripeR.public_test') <- PUBLIC_TEST_KEY}
 \code{options('stripeR.public_live') <- PUBLIC_LIVE_KEY}
 
 Then run \code{stripeR_init()} to initialise your Stripe API session.
