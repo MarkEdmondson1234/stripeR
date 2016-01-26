@@ -46,7 +46,7 @@ charge_card <- function(amount,
   req
 }
 
-#' Charge a credit card
+#' Retieve a charge
 #'
 #' @param chargeId The ID from a previous charge
 #'

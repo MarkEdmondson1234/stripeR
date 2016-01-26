@@ -8,18 +8,32 @@ API docs: v
 
 1. Sign up for a [Stripe account](https://dashboard.stripe.com/register) and get your API keys.  You will need to add a bank account and await approval.
 2. Load stripeR() package then set your API keys.  **Protect your live API keys!!** - people could charge your card otherwise.
- e.g.
- 
-```r
-library(stripeR)
 
-options('stripeR.secret_test') <- SECRET_TEST_KEY
-options('stripeR.secret_live') <- SECRET_LIVE_KEY
-options('stripeR.public_test') <- PUBLIC_TEST_KEY
-options('stripeR.public_live') <- PUBLIC_LIVE_KEY
+`stripeR` loads your API keys from a `.Renviron` file which you can place in your home directory.  This keeps it away from github for example. 
+
+e.g.
+
+```r
+## in ~/.Renviron
+stripeR.secret_test = SECRET_TEST_KEY
+stripeR.public_test = PUBLIC_TEST_KEY
+stripeR.secret_live = SECRET_LIVE_KEY
+stripeR.public_live = PUBLIC_LIVE_KEY
+
 ```
 
-Or set them in the `stripeR_options.R` file, but be careful publishing to say Github. The tests ones are ok as they can't charge against a card. 
+This is then called on the library loading via its options: 
+ 
+```r
+    stripeR.secret_test = Sys.getenv("stripeR.secret_test"),
+    stripeR.public_test = Sys.getenv("stripeR.public_test"),
+    stripeR.secret_live = Sys.getenv("stripeR.secret_live"), 
+    stripeR.public_live = Sys.getenv("stripeR.public_live") 
+```
+
+If for any reason you need to change this at run time you can via `r options("stripeR.secret_test") <- "NEW_SECRET_KEY"`
+
+The tests codes are ok to publish as they can't charge against a card. 
 
 3. Before any stripeR session initialise using the `stripeR_init()` command.  Set to TRUE when you are ready to test against your live account.  It defaults to FALSE.
 
@@ -27,12 +41,6 @@ e.g.
 
 ```r
 library(stripeR)
-
-options('stripeR.secret_test') <- SECRET_TEST_KEY
-options('stripeR.secret_live') <- SECRET_LIVE_KEY
-options('stripeR.public_test') <- PUBLIC_TEST_KEY
-options('stripeR.public_live') <- PUBLIC_LIVE_KEY
-
 
 stripeR_init(live=FALSE)
 

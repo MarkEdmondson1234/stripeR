@@ -2,7 +2,7 @@
 % Please edit documentation in R/charge.R
 \name{retrieve_charge}
 \alias{retrieve_charge}
-\title{Charge a credit card}
+\title{Retieve a charge}
 \usage{
 retrieve_charge(chargeId)
 }
@@ -13,6 +13,6 @@ retrieve_charge(chargeId)
 List object
 }
 \description{
-Charge a credit card
+Retieve a charge
 }
 
