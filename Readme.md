@@ -2,7 +2,7 @@
 
 An interface with the [Stripe](https://stripe.com) API for user payments.  Intended for use within Shiny apps. 
 
-API docs: v
+[API docs](https://stripe.com/docs/api/curl)
 
 ## Setup
 
@@ -25,17 +25,21 @@ stripeR.public_live = PUBLIC_LIVE_KEY
 This is then called on the library loading via its options: 
  
 ```r
-    stripeR.secret_test = Sys.getenv("stripeR.secret_test"),
-    stripeR.public_test = Sys.getenv("stripeR.public_test"),
-    stripeR.secret_live = Sys.getenv("stripeR.secret_live"), 
-    stripeR.public_live = Sys.getenv("stripeR.public_live") 
+stripeR.secret_test = Sys.getenv("stripeR.secret_test"),
+stripeR.public_test = Sys.getenv("stripeR.public_test"),
+stripeR.secret_live = Sys.getenv("stripeR.secret_live"), 
+stripeR.public_live = Sys.getenv("stripeR.public_live") 
 ```
 
-If for any reason you need to change this at run time you can via `r options("stripeR.secret_test") <- "NEW_SECRET_KEY"`
+..and then accessible via `getOption`, e.g. `getOption("stripeR.secret_test")`
+
+Then if for any reason you need to change this at run time you can via `options("stripeR.secret_test") <- "NEW_SECRET_KEY"` and not affect the environmental keys. 
 
 The tests codes are ok to publish as they can't charge against a card. 
 
-3. Before any stripeR session initialise using the `stripeR_init()` command.  Set to TRUE when you are ready to test against your live account.  It defaults to FALSE.
+# Using the library
+
+Before any `stripeR` session initialise using the `stripeR_init()` command.  Set to `TRUE` when you are ready to test against your live account.  It defaults to `FALSE`.
 
 e.g.
 
