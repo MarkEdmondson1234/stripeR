@@ -99,14 +99,13 @@ update_charge <- function(chargeId,
 
 #' Capture a charge
 #'
-#' @param chargeId The ID from a previous uncaptured charge
+#' @param chargeId A charge from a previous uncaptured charge
 #' @param amount Amount in smallest currency unit
-#' @param receipt_email email address to send receipt to
 #' @param application_fee Optional charge fee.
-#' @param destination Account to charge from
+#' @param receipt_email email address to send receipt to
 #' @param statement_descriptor 22 chars displayed on customer statement
 #'
-#' @return List object
+#' @return A charge object
 #'
 #' @export
 capture_charge <- function(chargeId,
@@ -115,4 +114,55 @@ capture_charge <- function(chargeId,
                            receipt_email=NULL,
                            statement_descriptor=NULL){
 
-  }
+  url <- sprintf("https://api.stripe.com/v1/charges/%s", chargeId)
+
+  req <- do_request(url,
+                    "POST",
+                    the_body = list(
+                      amount=amount,
+                      application_fee=application_fee,
+                      receipt_email=receipt_email,
+                      statement_descriptor=statement_descriptor
+                    ))
+
+  req
+
+}
+
+#' List all charges
+#'
+#' @param created A filter based on when charges were created
+#' @param customer A filter based on customer
+#' @param ending_before A cursor used for pagination
+#' @param limit between 1 and 100 objects
+#' @param source A filter based on the source of the charge
+#' @param starting_after A cursor used for pagination
+#'
+#'
+#' @return A charge object
+#'
+#' @export
+list_charges <- function(created=NULL,
+                         customer=NULL,
+                         ending_before=NULL,
+                         limit=NULL,
+                         source=NULL,
+                         starting_before=NULL){
+
+  url <- sprintf("https://api.stripe.com/v1/charges/")
+
+  ## do these go in the body? may be parameters
+  req <- do_request(url,
+                    "GET",
+                    the_body = list(
+                      created=created,
+                      customer=customer,
+                      ending_before=ending_before,
+                      limit=limit,
+                      source=source,
+                      starting_before=starting_before
+                    ))
+
+  req
+
+}
