@@ -26,4 +26,9 @@ List object
 \description{
 Update a charge
 }
+\seealso{
+Other charges: \code{\link{capture_charge}},
+  \code{\link{charge_card}}, \code{\link{get_charge}},
+  \code{\link{list_charges}}
+}
 

@@ -6,8 +6,7 @@
 \usage{
 charge_card(amount, currency, customer = NULL, source = NULL,
   receipt_email = NULL, application_fee = NULL, capture = TRUE,
-  description = NULL, destination = NULL, metadata = NULL,
-  shipping = NULL)
+  description = NULL, metadata = NULL, shipping = NULL)
 }
 \arguments{
 \item{amount}{Amount in smallest currency unit}
@@ -22,11 +21,9 @@ charge_card(amount, currency, customer = NULL, source = NULL,
 
 \item{application_fee}{Optional charge fee.}
 
-\item{capture}{Default TRUE}
+\item{capture}{TRUE to charge now, FALSE charge with \link{capture_charge}}
 
 \item{description}{Default NULL}
-
-\item{destination}{Account to charge from}
 
 \item{metadata}{A named list of metadata}
 
@@ -39,5 +36,18 @@ List object
 }
 \description{
 Charge a credit card
+}
+\details{
+\code{source} and \code{customer}:
+If you pass a customer ID, the source must be the ID of
+  a source belonging to the customer.
+
+If you do not pass a customer ID,
+  the source you provide must be a token from \link{create_token}
+}
+\seealso{
+Other charges: \code{\link{capture_charge}},
+  \code{\link{get_charge}}, \code{\link{list_charges}},
+  \code{\link{update_charge}}
 }
 

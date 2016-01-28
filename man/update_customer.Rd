@@ -47,4 +47,9 @@ Setting \code{account_balance} to negative means the customer will have a credit
 
   \code{description, email, metadata} will be set to empty if you POST an empty value.
 }
+\seealso{
+Other customers: \code{\link{create_customer}},
+  \code{\link{delete_customer}},
+  \code{\link{get_customer}}, \code{\link{list_customers}}
+}
 

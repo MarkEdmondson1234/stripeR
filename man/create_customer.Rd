@@ -25,7 +25,7 @@ create_customer(account_balance = NULL, coupon = NULL, description = NULL,
 
 \item{shipping}{Optional dictionary}
 
-\item{source}{A token, or dict with credit card details}
+\item{source}{A token from \link{get_token}}
 
 \item{tax_percent}{A positive decimal. Percentage added as tax.}
 
@@ -42,5 +42,10 @@ Setting \code{account_balance} to negative means the customer will have a credit
   A positive amount means it will be added to the next invoice.
 
   \code{description, email, metadata} will be set to empty if you POST an empty value.
+}
+\seealso{
+Other customers: \code{\link{delete_customer}},
+  \code{\link{get_customer}}, \code{\link{list_customers}},
+  \code{\link{update_customer}}
 }
 

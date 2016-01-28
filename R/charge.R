@@ -6,15 +6,23 @@
 #' @param source A payment source to be charged
 #' @param receipt_email email address to send receipt to
 #' @param application_fee Optional charge fee.
-#' @param capture Default TRUE
+#' @param capture TRUE to charge now, FALSE charge with \link{capture_charge}
 #' @param description Default NULL
-#' @param destination Account to charge from
 #' @param metadata A named list of metadata
 #' @param shipping Shipping info for the charge
 #' @param statement_descriptor 22 chars displayed on customer statement
 #'
 #' @return List object
 #'
+#' @details
+#'   \code{source} and \code{customer}:
+#' If you pass a customer ID, the source must be the ID of
+#'   a source belonging to the customer.
+#'
+#' If you do not pass a customer ID,
+#'   the source you provide must be a token from \link{create_token}
+#'
+#' @family charges
 #' @export
 charge_card <- function(amount,
                         currency,
@@ -24,7 +32,6 @@ charge_card <- function(amount,
                         application_fee=NULL,
                         capture=TRUE,
                         description=NULL,
-                        destination=NULL,
                         metadata=NULL,
                         shipping=NULL){
 
@@ -38,7 +45,6 @@ charge_card <- function(amount,
                      application_fee=application_fee,
                      capture=capture,
                      description=description,
-                     destination=destination,
                      metadata=metadata,
                      shipping=shipping
                     ))
@@ -52,8 +58,9 @@ charge_card <- function(amount,
 #'
 #' @return List object
 #'
+#' @family charges
 #' @export
-retrieve_charge <- function(chargeId){
+get_charge <- function(chargeId){
 
   url <- sprintf("https://api.stripe.com/v1/charges/%s", chargeId)
 
@@ -71,6 +78,7 @@ retrieve_charge <- function(chargeId){
 #'
 #' @return List object
 #'
+#' @family charges
 #' @export
 update_charge <- function(chargeId,
                           description=NULL,
@@ -107,6 +115,7 @@ update_charge <- function(chargeId,
 #'
 #' @return A charge object
 #'
+#' @family charges
 #' @export
 capture_charge <- function(chargeId,
                            amount=NULL,
@@ -141,6 +150,7 @@ capture_charge <- function(chargeId,
 #'
 #' @return A charge object
 #'
+#' @family charges
 #' @export
 list_charges <- function(created=NULL,
                          customer=NULL,

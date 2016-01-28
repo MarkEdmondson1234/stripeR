@@ -22,4 +22,9 @@ List object
 \description{
 List all customers
 }
+\seealso{
+Other customers: \code{\link{create_customer}},
+  \code{\link{delete_customer}},
+  \code{\link{get_customer}}, \code{\link{update_customer}}
+}
 

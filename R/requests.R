@@ -94,10 +94,11 @@ checkRequest <- function(req){
       }
       stop(error$type, "\n", error$message)
     } else {
+
       out <- content
     }
   } else {
-    message("No content found but was successful. Returning NULL")
+    message("No content found. Returning NULL")
     out <- NULL
   }
 
@@ -132,5 +133,6 @@ retryRequest <- function(f){
 
   }
 
+  message("API fetch successful")
   the_request
 }

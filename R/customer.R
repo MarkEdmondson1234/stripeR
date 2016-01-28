@@ -8,7 +8,7 @@
 #' @param plan ID of the plan to subscribe customer to
 #' @param quantity Quantity to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
-#' @param source A token, or dict with credit card details
+#' @param source A token from \link{get_token}
 #' @param tax_percent A positive decimal. Percentage added as tax.
 #' @param trail_end Unix timestamp when trial period ends. Needs plan.
 #'
@@ -20,6 +20,7 @@
 #'
 #' @return List object
 #'
+#' @family customers
 #' @export
 create_customer <- function(account_balance=NULL,
                             coupon=NULL,
@@ -58,8 +59,9 @@ create_customer <- function(account_balance=NULL,
 #'
 #' @return List object
 #'
+#' @family customers
 #' @export
-retrieve_customer <- function(customerId){
+get_customer <- function(customerId){
 
   url <- sprintf("https://api.stripe.com/v1/customers/%s", customerId)
 
@@ -93,6 +95,7 @@ retrieve_customer <- function(customerId){
 #'
 #' @return List object
 #'
+#' @family customers
 #' @export
 update_customer <- function(customerId,
                             account_balance=NULL,
@@ -128,8 +131,9 @@ update_customer <- function(customerId,
 #'
 #' @return List object
 #'
+#' @family customers
 #' @export
-retrieve_customer <- function(customerId){
+delete_customer <- function(customerId){
 
   url <- sprintf("https://api.stripe.com/v1/customers/%s", customerId)
 
@@ -148,6 +152,7 @@ retrieve_customer <- function(customerId){
 #'
 #' @return List object
 #'
+#' @family customers
 #' @export
 list_customers <- function(created=NULL,
                            ending_before=NULL,
