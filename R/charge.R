@@ -33,7 +33,10 @@ charge_card <- function(amount,
                         capture=TRUE,
                         description=NULL,
                         metadata=NULL,
-                        shipping=NULL){
+                        shipping=NULL,
+                        statement_descriptor=NULL){
+
+  capture <- ifelse(capture, "true", "false")
 
   req <- do_request("https://api.stripe.com/v1/charges",
                     "POST",
@@ -46,7 +49,8 @@ charge_card <- function(amount,
                      capture=capture,
                      description=description,
                      metadata=metadata,
-                     shipping=shipping
+                     shipping=shipping,
+                     statement_descriptor=statement_descriptor
                     ))
 
   req

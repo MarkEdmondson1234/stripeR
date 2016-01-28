@@ -6,7 +6,8 @@
 \usage{
 charge_card(amount, currency, customer = NULL, source = NULL,
   receipt_email = NULL, application_fee = NULL, capture = TRUE,
-  description = NULL, metadata = NULL, shipping = NULL)
+  description = NULL, metadata = NULL, shipping = NULL,
+  statement_descriptor = NULL)
 }
 \arguments{
 \item{amount}{Amount in smallest currency unit}

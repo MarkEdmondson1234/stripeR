@@ -51,4 +51,20 @@ stripeR_init(live=FALSE)
 ## Check the balance of your Stripe account.
 balance()
 
+## Create a token you keep instead of customer details
+token <- create_card_token(number=4242424242424242, 
+                           exp_month=12, 
+                           exp_year=2017, 
+                           cvc=123, 
+                           name = "Mark E")
+
+## charge a card €1
+charge_details <- charge_card(amount = 100, 
+                              currency = "eur", 
+                              source = token$id, 
+                              receipt_email="mark@buyme.com",
+                              description = "Nice stuff")
+
+
+
 ```
