@@ -65,7 +65,7 @@ retrieve_charge <- function(chargeId){
 
 #' Update a charge
 #'
-#' @param chargeId
+#' @param chargeId Id of charge
 #' @param fraud_details Possible fraud information
 #' @inheritParams charge_card
 #'
@@ -149,19 +149,19 @@ list_charges <- function(created=NULL,
                          source=NULL,
                          starting_before=NULL){
 
-  url <- sprintf("https://api.stripe.com/v1/charges/")
+  params = list(
+    created=created,
+    customer=customer,
+    ending_before=ending_before,
+    limit=limit,
+    source=source,
+    starting_before=starting_before
+  )
 
-  ## do these go in the body? may be parameters
-  req <- do_request(url,
-                    "GET",
-                    the_body = list(
-                      created=created,
-                      customer=customer,
-                      ending_before=ending_before,
-                      limit=limit,
-                      source=source,
-                      starting_before=starting_before
-                    ))
+  url <- httr::modify_url("https://api.stripe.com/v1/charges/",
+                          query = params)
+
+  req <- do_request(url,"GET")
 
   req
 

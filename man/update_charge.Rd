@@ -8,6 +8,8 @@ update_charge(chargeId, description = NULL, fraud_details = NULL,
   metadata = NULL, receipt_email = NULL, shipping = NULL)
 }
 \arguments{
+\item{chargeId}{Id of charge}
+
 \item{description}{Default NULL}
 
 \item{fraud_details}{Possible fraud information}
