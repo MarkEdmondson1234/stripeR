@@ -1,6 +1,6 @@
 # stripeR
 
-An interface with the [Stripe](https://stripe.com) API for user payments.  Intended for use within Shiny apps. 
+An interface with the [Stripe](https://stripe.com) API for user payments.
 
 [API docs](https://stripe.com/docs/api/curl)
 
