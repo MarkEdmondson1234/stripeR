@@ -4,6 +4,7 @@
 #' @param amount String with amount to charge e.g. "€4.40"
 #' @param plan Optional payment plan to show
 #' @param bottom_left Text shown at bottom left
+#' @param thanks The thank you UI upon payment
 #'
 #' @return A StripeR form to output with \link{stripeFormOutput} The form has
 #'   these inputs: input$email input$card_number input$exp_month input$exp_year
