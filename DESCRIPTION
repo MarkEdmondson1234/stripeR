@@ -13,7 +13,7 @@ Imports:
     httr (>= 1.0.0),
     jsonlite (>= 0.9.16)
 Suggests:
-    shiny (>= 0.12.1),
+    shiny (>= 0.13.0),
     knitr
 License: MIT + file LICENSE
 LazyData: true
