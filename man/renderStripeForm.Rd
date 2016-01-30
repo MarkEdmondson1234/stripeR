@@ -16,6 +16,8 @@ renderStripeForm(status, amount, plan = "",
 \item{plan}{Optional payment plan to show}
 
 \item{bottom_left}{Text shown at bottom left}
+
+\item{thanks}{The thank you UI upon payment}
 }
 \value{
 A StripeR form to output with \link{stripeFormOutput} The form has
@@ -29,6 +31,7 @@ Render Shiny payment form
 }
 \seealso{
 Other shiny: \code{\link{observeCharge}},
-  \code{\link{stripeFormOutput}}
+  \code{\link{stripeFormOutput}},
+  \code{\link{stripeShinyInit}}
 }
 

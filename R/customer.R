@@ -10,7 +10,7 @@
 #' @param shipping Optional dictionary
 #' @param source A token from \link{get_token}
 #' @param tax_percent A positive decimal. Percentage added as tax.
-#' @param trail_end Unix timestamp when trial period ends. Needs plan.
+#' @param trial_end Unix timestamp when trial period ends. Needs plan.
 #'
 #' @details
 #'   Setting \code{account_balance} to negative means the customer will have a credit.
@@ -32,7 +32,7 @@ create_customer <- function(account_balance=NULL,
                             shipping=NULL,
                             source=NULL,
                             tax_percent=NULL,
-                            trail_end=NULL){
+                            trial_end=NULL){
 
   req <- do_request("https://api.stripe.com/v1/customers",
                     "POST",
@@ -47,7 +47,7 @@ create_customer <- function(account_balance=NULL,
                       shipping=shipping,
                       source=source,
                       tax_percent=tax_percent,
-                      trail_end=trail_end
+                      trial_end=trial_end
                     ))
 
   req

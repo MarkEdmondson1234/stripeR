@@ -17,6 +17,7 @@ stripeForm Shiny Output
 }
 \seealso{
 Other shiny: \code{\link{observeCharge}},
-  \code{\link{renderStripeForm}}
+  \code{\link{renderStripeForm}},
+  \code{\link{stripeShinyInit}}
 }
 

@@ -22,6 +22,7 @@ Needs to be present to do the charge with stripeForm
 }
 \seealso{
 Other shiny: \code{\link{renderStripeForm}},
-  \code{\link{stripeFormOutput}}
+  \code{\link{stripeFormOutput}},
+  \code{\link{stripeShinyInit}}
 }
 

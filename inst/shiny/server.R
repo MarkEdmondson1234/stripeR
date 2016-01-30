@@ -3,8 +3,16 @@ library(stripeR)
 
 function(input, output, session){
 
-  status <- reactiveValues(charged=FALSE)
-  output$stripeForm <- renderStripeForm(status, "€100.99", "Annual")
-  observeCharge(status, input, amount = 10099, currency = "eur", plan = "annual")
+  status <- stripeShinyInit()
+
+  output$stripeForm <- renderStripeForm(status,
+                                        amount="GBP20.00",
+                                        plan="Agency - GBP20.00 per month")
+
+  observeStripeCharge(status,
+                      input,
+                      amount = 2000,
+                      currency = "gbp",
+                      plan="agency")
 
 }

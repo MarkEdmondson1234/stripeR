@@ -6,7 +6,7 @@
 \usage{
 create_customer(account_balance = NULL, coupon = NULL, description = NULL,
   email = NULL, metadata = NULL, plan = NULL, quantity = NULL,
-  shipping = NULL, source = NULL, tax_percent = NULL, trail_end = NULL)
+  shipping = NULL, source = NULL, tax_percent = NULL, trial_end = NULL)
 }
 \arguments{
 \item{account_balance}{Integer amount in pence}
@@ -29,7 +29,7 @@ create_customer(account_balance = NULL, coupon = NULL, description = NULL,
 
 \item{tax_percent}{A positive decimal. Percentage added as tax.}
 
-\item{trail_end}{Unix timestamp when trial period ends. Needs plan.}
+\item{trial_end}{Unix timestamp when trial period ends. Needs plan.}
 }
 \value{
 List object
