@@ -16,7 +16,7 @@ The Stripe Form in Shiny UI.
 stripeForm Shiny Output
 }
 \seealso{
-Other shiny: \code{\link{observeCharge}},
+Other shiny: \code{\link{observeStripeCharge}},
   \code{\link{renderStripeForm}},
   \code{\link{stripeShinyInit}}
 }

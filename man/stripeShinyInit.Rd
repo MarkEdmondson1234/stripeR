@@ -10,7 +10,7 @@ stripeShinyInit()
 Use at start of Shiny session
 }
 \seealso{
-Other shiny: \code{\link{observeCharge}},
+Other shiny: \code{\link{observeStripeCharge}},
   \code{\link{renderStripeForm}},
   \code{\link{stripeFormOutput}}
 }

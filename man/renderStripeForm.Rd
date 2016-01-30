@@ -30,7 +30,7 @@ A StripeR form to output with \link{stripeFormOutput} The form has
 Render Shiny payment form
 }
 \seealso{
-Other shiny: \code{\link{observeCharge}},
+Other shiny: \code{\link{observeStripeCharge}},
   \code{\link{stripeFormOutput}},
   \code{\link{stripeShinyInit}}
 }
