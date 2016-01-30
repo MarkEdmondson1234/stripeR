@@ -71,7 +71,11 @@ charge_details <- charge_card(amount = 100,
 
 ## With Shiny
 
-Some helper functions to make a payment form are enabled.  Use as below:
+Some helper functions to make a payment form are enabled.  
+
+![Shiny Form](stripeR_form.png)
+
+Use as below:
 
 ```r
 
