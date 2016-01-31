@@ -8,7 +8,7 @@
 #' @param application_fee Optional charge fee.
 #' @param capture TRUE to charge now, FALSE charge with \link{capture_charge}
 #' @param description Default NULL
-#' @param metadata A named list of metadata
+#' @param metadata A named list
 #' @param shipping Shipping info for the charge
 #' @param statement_descriptor 22 chars displayed on customer statement
 #'
@@ -38,20 +38,25 @@ charge_card <- function(amount,
 
   capture <- ifelse(capture, "true", "false")
 
+  the_body <-  list(
+    amount=amount,
+    currency=currency,
+    source=source,
+    receipt_email=receipt_email,
+    application_fee=application_fee,
+    capture=capture,
+    description=description,
+    shipping=shipping,
+    statement_descriptor=statement_descriptor
+  )
+
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
+
   req <- do_request("https://api.stripe.com/v1/charges",
                     "POST",
-                    the_body = list(
-                     amount=amount,
-                     currency=currency,
-                     source=source,
-                     receipt_email=receipt_email,
-                     application_fee=application_fee,
-                     capture=capture,
-                     description=description,
-                     metadata=metadata,
-                     shipping=shipping,
-                     statement_descriptor=statement_descriptor
-                    ))
+                    the_body = the_body)
 
   req
 }
@@ -93,15 +98,20 @@ update_charge <- function(chargeId,
 
   url <- sprintf("https://api.stripe.com/v1/charges/%s", chargeId)
 
+  the_body <-  list(
+    fraud_details=fraud_details,
+    receipt_email=receipt_email,
+    description=description,
+    shipping=shipping
+  )
+
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
+
   req <- do_request(url,
                     "POST",
-                    the_body = list(
-                      fraud_details=fraud_details,
-                      receipt_email=receipt_email,
-                      description=description,
-                      metadata=metadata,
-                      shipping=shipping
-                    ))
+                    the_body = the_body)
 
   req
 

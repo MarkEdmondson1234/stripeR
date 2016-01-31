@@ -104,9 +104,10 @@ function(input, output, session){
                       plan="example")
 
 }
+```
 
+```r
 ## ui.R
-
 library(shiny)
 library(stripeR)
 

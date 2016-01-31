@@ -22,3 +22,21 @@ error.message <- function(test_me){
   if(is.error(test_me)) attr(test_me, "condition")$message
 }
 
+#' Make Metadata keys
+#'
+#' Can have 20 keys total, keynames < 40, values < 500
+#'
+#' @param meta_list A named list of meta data
+#'
+#' @return meta data suitale to pass to API
+#' @keywords internal
+make_meta <- function(the_list){
+
+  stopifnot(max(nchar(names(the_list))) <= 40,
+            max(nchar(the_list)) <= 500)
+
+  names(the_list) <- paste0("metadata[",names(the_list),"]")
+
+  the_list
+
+}

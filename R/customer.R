@@ -4,7 +4,7 @@
 #' @param coupon A discount on recurring charges
 #' @param description Arbitary string
 #' @param email customer's email address
-#' @param metadata Set of key/value pairs
+#' @param metadata A named list
 #' @param plan ID of the plan to subscribe customer to
 #' @param quantity Quantity to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
@@ -34,21 +34,26 @@ create_customer <- function(account_balance=NULL,
                             tax_percent=NULL,
                             trial_end=NULL){
 
+  the_body <-  list(
+    account_balance=account_balance,
+    coupon=coupon,
+    description=description,
+    email=email,
+    plan=plan,
+    quantity=quantity,
+    shipping=shipping,
+    source=source,
+    tax_percent=tax_percent,
+    trial_end=trial_end
+  )
+
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
+
   req <- do_request("https://api.stripe.com/v1/customers",
                     "POST",
-                    the_body = list(
-                      account_balance=account_balance,
-                      coupon=coupon,
-                      description=description,
-                      email=email,
-                      metadata=metadata,
-                      plan=plan,
-                      quantity=quantity,
-                      shipping=shipping,
-                      source=source,
-                      tax_percent=tax_percent,
-                      trial_end=trial_end
-                    ))
+                    the_body = the_body)
 
   req
 }
@@ -79,7 +84,7 @@ get_customer <- function(customerId){
 #' @param default_source ID of source to make customer new default
 #' @param description Arbitary string
 #' @param email customer's email address
-#' @param metadata Set of key/value pairs
+#' @param metadata A named list
 #' @param plan ID of the plan to subscribe customer to
 #' @param quantity Quantity you'd like to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
@@ -109,18 +114,24 @@ update_customer <- function(customerId,
 
   url <- sprintf("https://api.stripe.com/v1/customers/%s", customerId)
 
+  the_body <-  list(
+    account_balance=account_balance,
+    coupon=coupon,
+    default_source=default_source,
+    description=description,
+    email=email,
+    shipping=shipping,
+    source=source
+  )
+
+
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
+
   req <- do_request(url,
                     "POST",
-                    the_body = list(
-                      account_balance=account_balance,
-                      coupon=coupon,
-                      default_source=default_source,
-                      description=description,
-                      email=email,
-                      metadata=metadata,
-                      shipping=shipping,
-                      source=source
-                    ))
+                    the_body = the_body)
 
   req
 }

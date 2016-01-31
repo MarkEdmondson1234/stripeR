@@ -17,7 +17,7 @@ create_customer(account_balance = NULL, coupon = NULL, description = NULL,
 
 \item{email}{customer's email address}
 
-\item{metadata}{Set of key/value pairs}
+\item{metadata}{A named list}
 
 \item{plan}{ID of the plan to subscribe customer to}
 

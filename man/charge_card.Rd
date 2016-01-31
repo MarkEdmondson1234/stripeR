@@ -26,7 +26,7 @@ charge_card(amount, currency, customer = NULL, source = NULL,
 
 \item{description}{Default NULL}
 
-\item{metadata}{A named list of metadata}
+\item{metadata}{A named list}
 
 \item{shipping}{Shipping info for the charge}
 

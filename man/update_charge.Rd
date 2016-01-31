@@ -14,7 +14,7 @@ update_charge(chargeId, description = NULL, fraud_details = NULL,
 
 \item{fraud_details}{Possible fraud information}
 
-\item{metadata}{A named list of metadata}
+\item{metadata}{A named list}
 
 \item{receipt_email}{email address to send receipt to}
 
