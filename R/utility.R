@@ -28,15 +28,16 @@ error.message <- function(test_me){
 #'
 #' @param meta_list A named list of meta data
 #'
-#' @return meta data suitale to pass to API
+#' @return meta data suitable to pass to API
 #' @keywords internal
-make_meta <- function(the_list){
+make_meta <- function(metadata){
 
-  stopifnot(max(nchar(names(the_list))) <= 40,
-            max(nchar(the_list)) <= 500)
+  stopifnot(max(nchar(names(metadata))) <= 40,
+            max(nchar(metadata)) <= 500,
+            length(metadata) <= 20)
 
-  names(the_list) <- paste0("metadata[",names(the_list),"]")
+  names(metadata) <- paste0("metadata[",names(metadata),"]")
 
-  the_list
+  metadata
 
 }

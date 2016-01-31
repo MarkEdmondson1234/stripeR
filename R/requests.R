@@ -44,9 +44,13 @@ stripeR_init <- function(live=FALSE){
 #' @keywords internal
 do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
 
+  ## Stripe looks at this key to ensure no repeat charges
+  idempotency <- paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
+
   arg_list <- list(url = url,
                    body = the_body,
-                   encode = "form"
+                   encode = "form",
+                   httr::add_headers("Idempotency-Key" = idempotency)
   )
 
   if(!is.null(customConfig)){
@@ -56,13 +60,10 @@ do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
 
   }
 
-#   if(!is.null(the_body)){
-#     message("Body JSON parsed to: ", jsonlite::toJSON(the_body, auto_unbox=T))
-#   }
-
   req <- retryRequest(do.call(request_type,
                               args = arg_list,
-                              envir = asNamespace("httr")))
+                              envir = asNamespace("httr"))
+                      )
 
   response <- checkRequest(req)
 

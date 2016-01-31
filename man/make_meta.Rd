@@ -4,13 +4,13 @@
 \alias{make_meta}
 \title{Make Metadata keys}
 \usage{
-make_meta(the_list)
+make_meta(metadata)
 }
 \arguments{
 \item{meta_list}{A named list of meta data}
 }
 \value{
-meta data suitale to pass to API
+meta data suitable to pass to API
 }
 \description{
 Can have 20 keys total, keynames < 40, values < 500
