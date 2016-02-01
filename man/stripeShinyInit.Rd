@@ -4,7 +4,10 @@
 \alias{stripeShinyInit}
 \title{Stripe Shiny status object}
 \usage{
-stripeShinyInit()
+stripeShinyInit(...)
+}
+\arguments{
+\item{...}{Reactive data you can send into Stripe metadaata}
 }
 \description{
 Use at start of Shiny session

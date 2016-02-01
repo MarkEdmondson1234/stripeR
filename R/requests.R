@@ -109,7 +109,7 @@ checkRequest <- function(req){
 
 
 
-#' ReTry API requests for certain errors using exponential backoff.
+#' Retry API requests for certain errors using exponential backoff.
 #'
 #' @param f A function of a http request
 #'

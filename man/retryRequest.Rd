@@ -2,7 +2,7 @@
 % Please edit documentation in R/requests.R
 \name{retryRequest}
 \alias{retryRequest}
-\title{ReTry API requests for certain errors using exponential backoff.}
+\title{Retry API requests for certain errors using exponential backoff.}
 \usage{
 retryRequest(f)
 }
@@ -10,7 +10,7 @@ retryRequest(f)
 \item{f}{A function of a http request}
 }
 \description{
-ReTry API requests for certain errors using exponential backoff.
+Retry API requests for certain errors using exponential backoff.
 }
 \keyword{internal}
 

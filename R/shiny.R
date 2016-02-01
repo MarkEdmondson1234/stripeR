@@ -2,19 +2,26 @@
 #'
 #' Use at start of Shiny session
 #'
-#' @import shiny
+#' @param ... Reactive data you can send into Stripe metadaata
+#'
 #' @family shiny
 #'
 #' @export
-stripeShinyInit <- function(){
-  reactiveValues(charged=FALSE,
-                 account_balance=NULL,
-                 coupon=NULL,
-                 plan=NULL,
-                 quantity=NULL,
-                 trial_end=NULL,
-                 statement_descriptor=NULL,
-                 charge_message=NULL)
+stripeShinyInit <- function(...){
+  rv <- shiny::reactiveValues(charged=FALSE,
+                              account_balance=NULL,
+                              coupon=NULL,
+                              plan=NULL,
+                              quantity=NULL,
+                              trial_end=NULL,
+                              statement_descriptor=NULL,
+                              charge_message=NULL)
+  extra <- list(...)
+
+  lapply(names(extra), function(x) rv[[x]] <- extra[[x]])
+
+  rv
+
 }
 
 #' Render Shiny payment form
@@ -129,6 +136,7 @@ stripeFormOutput <- function(outputId){
 #' @param amount The amount to charge
 #' @param currency Currency of amount
 #' @param plan Optional payment plan to subscribe to
+#' @param metadata Named list of meta data sent with charge/customer
 #' @param live Whether to charge your live Stripe account
 #'
 #' @family shiny
@@ -140,6 +148,7 @@ observeStripeCharge <- function(status,
                                 amount,
                                 currency="gbp",
                                 plan=NULL,
+                                metadata=NULL,
                                 live=FALSE){
 
   observeEvent(input$charge_card, {
@@ -161,11 +170,17 @@ observeStripeCharge <- function(status,
       return()
     }
 
-    token <- create_card_token(number=cn,
+    token <- try(create_card_token(number=cn,
                                exp_month=exp_month,
                                exp_year=exp_year,
                                cvc=cvc,
-                               name=email)
+                               name=email))
+
+    if(is.error(token)){
+      warning(error.message(token))
+      status$charge_message <- error.message(token)
+      return()
+    }
 
     ## A recurring charge to a pre-made payment plan in Stripe settings
     if(!is.null(plan)){
@@ -175,14 +190,16 @@ observeStripeCharge <- function(status,
                                       account_balance = status$account_balance,
                                       coupon = status$coupon,
                                       quantity = status$quantity,
-                                      trial_end = status$trial_end))
+                                      trial_end = status$trial_end,
+                                      metadata = metadata))
 
       updateStatus(customer, status)
 
 
     } else { ## one off payment
       customer <- try(create_customer(email = email,
-                                      account_balance = status$account_balance))
+                                      account_balance = status$account_balance,
+                                      metadata = metadata))
 
       ## Can still make a charge if error, just won't have customer object
       if(is.error(customer)){
@@ -218,7 +235,8 @@ updateStatus <- function(attempt, status){
                   attempt$receipt_email,
                   attempt$email,
                   attempt$subscriptions$data$plan.id,
-                  attempt$subscriptions$data$plan.amount
+                  attempt$subscriptions$data$plan.amount,
+                  paste(names(attempt$metadata),attempt$metadata, sep="=", collapse = ",")
                   ),
             sep=", "
             )

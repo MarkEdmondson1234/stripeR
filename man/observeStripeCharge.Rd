@@ -5,7 +5,7 @@
 \title{Charge Observer}
 \usage{
 observeStripeCharge(status, input, amount, currency = "gbp", plan = NULL,
-  live = FALSE)
+  metadata = NULL, live = FALSE)
 }
 \arguments{
 \item{status}{A reactive list with element \code{charged}}
@@ -17,6 +17,8 @@ observeStripeCharge(status, input, amount, currency = "gbp", plan = NULL,
 \item{currency}{Currency of amount}
 
 \item{plan}{Optional payment plan to subscribe to}
+
+\item{metadata}{Named list of meta data sent with charge/customer}
 
 \item{live}{Whether to charge your live Stripe account}
 }
