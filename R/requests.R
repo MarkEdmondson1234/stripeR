@@ -42,10 +42,24 @@ stripeR_init <- function(live=FALSE){
 #' @return the request content or NULL
 #'
 #' @keywords internal
-do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
+do_request <- function(url,
+                       request_type,
+                       the_body = NULL,
+                       customConfig = NULL,
+                       limit=NULL){
 
   ## Stripe looks at this key to ensure no repeat charges
   idempotency <- paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
+
+
+  if(!is.null(limit)){
+    if(limit > 100){
+      new_limit <- 100
+      url <- httr::modify_url(url,
+                              query = list(limit = new_limit))
+    }
+  }
+
 
   arg_list <- list(url = url,
                    body = the_body,
@@ -67,6 +81,42 @@ do_request <- function(url, request_type, the_body = NULL, customConfig = NULL){
 
   response <- checkRequest(req)
 
+  ## page through content results if necessary
+  if(inherits(response, "response_content") && !is.null(limit)){
+    if(response$has_more){
+
+      new_limit <- limit - 100
+
+      if(new_limit > 0){
+
+        message("Paging through results: ", new_limit, "of ", limit)
+        number_of_objects <- length(response$data)
+        last_obj <- response$data[[number_of_objects]]
+
+        url <- httr::modify_url(url,
+                                query = list(limit = new_limit,
+                                             starting_after = last_obj$id))
+        new_response <- do_request(url=url,
+                                   request_type = request_type,
+                                   the_body = NULL,
+                                   customConfig = NULL,
+                                   limit=new_limit)
+
+        response <- structure(
+          list(
+            object = new_response$object,
+            data = c(response$data, new_response$data),
+            has_more = new_response$has_more,
+            url = new_response$url
+          ),
+          class = "response_content"
+        )
+
+      }
+    }
+  }
+
+
   response
 
 }
@@ -83,7 +133,7 @@ checkRequest <- function(req){
   content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
 
   if(!is.null(content)){
-    content <- jsonlite::fromJSON(content, simplifyVector = TRUE, flatten = TRUE)
+    content <- jsonlite::fromJSON(content, simplifyVector = FALSE, flatten = TRUE)
 
     if(exists("error", where = content)){
       error <- content$error
@@ -97,6 +147,7 @@ checkRequest <- function(req){
     } else {
 
       out <- content
+      class(out) <- "response_content"
     }
   } else {
     message("No content found. Returning NULL")
@@ -117,10 +168,10 @@ checkRequest <- function(req){
 retryRequest <- function(f){
   the_request <- try(f)
 
-  if(!the_request$status_code %in% c(200, 201)){
+  if(!the_request[["status_code"]] %in% c(200, 201)){
     warning("Request Status Code: ", the_request$status_code)
 
-    if(the_request$status_code %in% c(500, 501, 502, 503, 504)){
+    if(the_request[["status_code"]] %in% c(500, 501, 502, 503, 504)){
       for(i in 1:5){
         warning("Trying again: ", i, " of 5")
         Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))

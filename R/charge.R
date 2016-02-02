@@ -185,7 +185,7 @@ list_charges <- function(created=NULL,
   url <- httr::modify_url("https://api.stripe.com/v1/charges/",
                           query = params)
 
-  req <- do_request(url,"GET")
+  req <- do_request(url,"GET",limit=limit)
 
   req
 

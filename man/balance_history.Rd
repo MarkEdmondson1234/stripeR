@@ -4,7 +4,10 @@
 \alias{balance_history}
 \title{Get the balance history of your Stripe account}
 \usage{
-balance_history()
+balance_history(limit = 100)
+}
+\arguments{
+\item{limit}{Number of items to fetch}
 }
 \value{
 List object

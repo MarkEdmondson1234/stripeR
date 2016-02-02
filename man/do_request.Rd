@@ -4,7 +4,8 @@
 \alias{do_request}
 \title{Do a request}
 \usage{
-do_request(url, request_type, the_body = NULL, customConfig = NULL)
+do_request(url, request_type, the_body = NULL, customConfig = NULL,
+  limit = NULL)
 }
 \arguments{
 \item{url}{The url of the request}

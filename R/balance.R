@@ -34,10 +34,12 @@ balance_transaction <- function(transactionId){
 
 #' Get the balance history of your Stripe account
 #'
+#' @param limit Number of items to fetch
+#'
 #' @return List object
 #'
 #' @export
-balance_history <- function(){
+balance_history <- function(limit=100){
   ## arguments to add:
   # available_on
   # created
@@ -48,7 +50,8 @@ balance_history <- function(){
   # transfer
   # type
   req <- do_request("https://api.stripe.com/v1/balance/history",
-                    "GET")
+                    "GET",
+                    limit=limit)
 
   req
 }

@@ -160,6 +160,7 @@ delete_customer <- function(customerId){
 #' @param ending_before filter for pagination
 #' @param limit Between 1 and 100
 #' @param starting_after filter for pagination
+#' @param raw_data Default FALSE
 #'
 #' @return List object
 #'
@@ -167,8 +168,9 @@ delete_customer <- function(customerId){
 #' @export
 list_customers <- function(created=NULL,
                            ending_before=NULL,
-                           limit=NULL,
-                           starting_before=NULL){
+                           limit=10,
+                           starting_before=NULL,
+                           raw_data=FALSE){
 
   params <- list(
     created=created,
@@ -180,7 +182,9 @@ list_customers <- function(created=NULL,
   url <- httr::modify_url("https://api.stripe.com/v1/customers",
                           query = params)
 
-  req <- do_request(url,"GET")
+  req <- do_request(url,"GET", limit=limit)
+
+  content <- req$data
 
   req
 
