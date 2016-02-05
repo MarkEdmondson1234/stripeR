@@ -1,5 +1,6 @@
 #' Create a customer
 #'
+#' @param idempotency A random string to ensure no repeat charges
 #' @param account_balance Integer amount in pence
 #' @param coupon A discount on recurring charges
 #' @param description Arbitary string
@@ -22,7 +23,8 @@
 #'
 #' @family customers
 #' @export
-create_customer <- function(account_balance=NULL,
+create_customer <- function(idempotency,
+                            account_balance=NULL,
                             coupon=NULL,
                             description=NULL,
                             email=NULL,

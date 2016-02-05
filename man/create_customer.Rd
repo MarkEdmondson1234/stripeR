@@ -4,11 +4,14 @@
 \alias{create_customer}
 \title{Create a customer}
 \usage{
-create_customer(account_balance = NULL, coupon = NULL, description = NULL,
-  email = NULL, metadata = NULL, plan = NULL, quantity = NULL,
-  shipping = NULL, source = NULL, tax_percent = NULL, trial_end = NULL)
+create_customer(idempotency, account_balance = NULL, coupon = NULL,
+  description = NULL, email = NULL, metadata = NULL, plan = NULL,
+  quantity = NULL, shipping = NULL, source = NULL, tax_percent = NULL,
+  trial_end = NULL)
 }
 \arguments{
+\item{idempotency}{A random string to ensure no repeat charges}
+
 \item{account_balance}{Integer amount in pence}
 
 \item{coupon}{A discount on recurring charges}

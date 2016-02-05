@@ -15,7 +15,8 @@ stripeShinyInit <- function(...){
                               quantity=NULL,
                               trial_end=NULL,
                               statement_descriptor=NULL,
-                              charge_message=NULL)
+                              charge_message=NULL,
+                              idempotency=idempotency())
   extra <- list(...)
 
   lapply(names(extra), function(x) rv[[x]] <- extra[[x]])
@@ -49,31 +50,31 @@ renderStripeForm <- function(status,
                              thanks = p(amount, " paid successful.  Thanks!")){
 
 
-    renderUI({
+  shiny::renderUI({
       if(!status$charged){
-        row1 <- fluidRow(
-          column(width = 6,
-                 h4("Amount"),
-                 strong(amount)
+        row1 <- shiny::fluidRow(
+          shiny::column(width = 6,
+                        shiny::h4("Amount"),
+                 shiny::strong(amount)
           ),
-          column(width = 6,
-                 h4(ifelse(plan!="","Plan","")),
-                 helpText(plan)
+          shiny::column(width = 6,
+                        shiny::h4(ifelse(plan!="","Plan","")),
+                        shiny::helpText(plan)
           )
         )
 
         row2 <- shiny::textInput("email","Email", placeholder = "Email for invoice")
         row3 <- shiny::textInput("card_number", "Credit Card Number", value=4242424242424242)
 
-        row4 <- fluidRow(
-          column(width = 6,
+        row4 <- shiny::fluidRow(
+          shiny::column(width = 6,
                  shiny::numericInput("exp_month",
                                      "Expiry Month",
                                      value = 1,
                                      min=1, max=12,
                                      step=1)
           ),
-          column(width = 6,
+          shiny::column(width = 6,
                  shiny::numericInput("exp_year",
                                      "Expiry Year",
                                      value=2016,
@@ -82,29 +83,29 @@ renderStripeForm <- function(status,
           )
         )
 
-        row5 <- fluidRow(
-          column(width = 4,
-                 textInput("cvc",
+        row5 <- shiny::fluidRow(
+          shiny::column(width = 4,
+                 shiny::textInput("cvc",
                            "CVC",
                            value=123)
           ),
-          column(width = 6, offset=2,
-                 br(),
+          shiny::column(width = 6, offset=2,
+                 shiny::br(),
                  if(!is.null(status$charge_message)){
-                   helpText(status$charge_message)
+                   shiny::helpText(status$charge_message)
                  } else {
-                   helpText(bottom_left)
+                   shiny::helpText(bottom_left)
                  }
           )
         )
 
-        row6 <- actionButton(inputId = "charge_card",
+        row6 <- shiny::actionButton(inputId = "charge_card",
                              label = "Charge Card",
                              icon = icon("credit-card"),
                              width = "100%",
                              class="btn btn-success")
 
-        tagList(row1, row2, row3, row4, row5, row6)
+        shiny::tagList(row1, row2, row3, row4, row5, row6)
       } else {
         thanks
       }
@@ -184,7 +185,8 @@ observeStripeCharge <- function(status,
 
     ## A recurring charge to a pre-made payment plan in Stripe settings
     if(!is.null(plan)){
-      customer <- try(create_customer(source = token$id,
+      customer <- try(create_customer(idempotency=status$idempotency,
+                                      source = token$id,
                                       email = email,
                                       plan = plan,
                                       account_balance = status$account_balance,
@@ -197,7 +199,8 @@ observeStripeCharge <- function(status,
 
 
     } else { ## one off payment
-      customer <- try(create_customer(email = email,
+      customer <- try(create_customer(idempotency=status$idempotency,
+                                      email = email,
                                       account_balance = status$account_balance,
                                       metadata = metadata))
 
@@ -207,7 +210,8 @@ observeStripeCharge <- function(status,
         status$charge_message <- error.message(customer)
       }
 
-      charge <- try(charge_card(amount = amount,
+      charge <- try(charge_card(idempotency=status$idempotency,
+                                amount = amount,
                                 currency = currency,
                                 customer = customer,
                                 source = token$id,
@@ -243,5 +247,7 @@ updateStatus <- function(attempt, status){
 
     status$charged <- TRUE
     status$charge_message <- "Success"
+    ## new random string for potentially new transaction
+    status$idempotency <- idempotency()
   }
 }

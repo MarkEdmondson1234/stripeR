@@ -36,6 +36,7 @@ stripeR_init <- function(live=FALSE){
 #'
 #' @param url The url of the request
 #' @param request_type GET, POST, PUT etc.
+#' @param idempotency A random string to ensure no repeat charges
 #' @param the_body Body to send with the request, if any
 #' @param customConfig a list of custom configurations from httr
 #'
@@ -44,13 +45,10 @@ stripeR_init <- function(live=FALSE){
 #' @keywords internal
 do_request <- function(url,
                        request_type,
+                       idempotency,
                        the_body = NULL,
                        customConfig = NULL,
                        limit=NULL){
-
-  ## Stripe looks at this key to ensure no repeat charges
-  idempotency <- paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
-
 
   if(!is.null(limit)){
     if(limit > 100){
@@ -89,7 +87,7 @@ do_request <- function(url,
 
       if(new_limit > 0){
 
-        message("Paging through results: ", new_limit, "of ", limit)
+        message("Paging through results: ", new_limit, " left of ", limit)
         number_of_objects <- length(response$data)
         last_obj <- response$data[[number_of_objects]]
 

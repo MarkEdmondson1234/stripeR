@@ -1,3 +1,14 @@
+#' Idempotency
+#'
+#' A random code to ensure no repeata charges
+#'
+#' @return A random 15 digit hash
+#'
+#' @export
+idempotency <- function(){
+  paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
+}
+
 #' Is this a try error?
 #'
 #' Utility to test errors

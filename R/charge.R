@@ -2,6 +2,7 @@
 #'
 #' @param amount Amount in smallest currency unit
 #' @param currency ISO code for currency
+#' @param idempotency A random string to ensure no repeat charges
 #' @param customer ID of existing customer. This or source required.
 #' @param source A payment source to be charged
 #' @param receipt_email email address to send receipt to
@@ -26,6 +27,7 @@
 #' @export
 charge_card <- function(amount,
                         currency,
+                        idempotency,
                         customer=NULL,
                         source=NULL,
                         receipt_email=NULL,

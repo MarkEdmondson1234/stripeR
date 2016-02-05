@@ -4,13 +4,15 @@
 \alias{do_request}
 \title{Do a request}
 \usage{
-do_request(url, request_type, the_body = NULL, customConfig = NULL,
-  limit = NULL)
+do_request(url, request_type, idempotency, the_body = NULL,
+  customConfig = NULL, limit = NULL)
 }
 \arguments{
 \item{url}{The url of the request}
 
 \item{request_type}{GET, POST, PUT etc.}
+
+\item{idempotency}{A random string to ensure no repeat charges}
 
 \item{the_body}{Body to send with the request, if any}
 

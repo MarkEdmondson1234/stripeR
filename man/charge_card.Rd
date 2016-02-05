@@ -4,7 +4,7 @@
 \alias{charge_card}
 \title{Charge a credit card}
 \usage{
-charge_card(amount, currency, customer = NULL, source = NULL,
+charge_card(amount, currency, idempotency, customer = NULL, source = NULL,
   receipt_email = NULL, application_fee = NULL, capture = TRUE,
   description = NULL, metadata = NULL, shipping = NULL,
   statement_descriptor = NULL)
@@ -13,6 +13,8 @@ charge_card(amount, currency, customer = NULL, source = NULL,
 \item{amount}{Amount in smallest currency unit}
 
 \item{currency}{ISO code for currency}
+
+\item{idempotency}{A random string to ensure no repeat charges}
 
 \item{customer}{ID of existing customer. This or source required.}
 
