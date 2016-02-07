@@ -45,7 +45,7 @@ stripeR_init <- function(live=FALSE){
 #' @keywords internal
 do_request <- function(url,
                        request_type,
-                       idempotency,
+                       idempotency=NULL,
                        the_body = NULL,
                        customConfig = NULL,
                        limit=NULL){
@@ -71,6 +71,8 @@ do_request <- function(url,
     arg_list <- c(arg_list, customConfig)
 
   }
+
+  message("Request: ", url)
 
   req <- retryRequest(do.call(request_type,
                               args = arg_list,

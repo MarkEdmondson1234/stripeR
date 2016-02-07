@@ -57,7 +57,8 @@ charge_card <- function(amount,
   }
 
   req <- do_request("https://api.stripe.com/v1/charges",
-                    "POST",
+                    request_type="POST",
+                    idempotency=idempotency,
                     the_body = the_body)
 
   req

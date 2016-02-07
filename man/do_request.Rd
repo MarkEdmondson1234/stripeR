@@ -4,7 +4,7 @@
 \alias{do_request}
 \title{Do a request}
 \usage{
-do_request(url, request_type, idempotency, the_body = NULL,
+do_request(url, request_type, idempotency = NULL, the_body = NULL,
   customConfig = NULL, limit = NULL)
 }
 \arguments{

@@ -16,7 +16,7 @@ stripeShinyInit <- function(...){
                               trial_end=NULL,
                               statement_descriptor=NULL,
                               charge_message=NULL,
-                              idempotency=idempotency())
+                              idempotency=NULL)
   extra <- list(...)
 
   lapply(names(extra), function(x) rv[[x]] <- extra[[x]])
@@ -39,7 +39,6 @@ stripeShinyInit <- function(...){
 #'
 #'   Action button: input$charge_card
 #'
-#' @import shiny
 #' @family shiny
 #'
 #' @export
@@ -52,6 +51,10 @@ renderStripeForm <- function(status,
 
   shiny::renderUI({
       if(!status$charged){
+
+        ## once per transaction to prevent duplicates
+        status$idempotency <- idempotency()
+
         row1 <- shiny::fluidRow(
           shiny::column(width = 6,
                         shiny::h4("Amount"),
@@ -121,11 +124,10 @@ renderStripeForm <- function(status,
 #' @return The Stripe Form in Shiny UI.
 #'
 #' @family shiny
-#' @importFrom shiny uiOutput
 #'
 #' @export
 stripeFormOutput <- function(outputId){
-  uiOutput(outputId)
+  shiny::uiOutput(outputId)
 }
 
 #' Charge Observer
@@ -141,7 +143,6 @@ stripeFormOutput <- function(outputId){
 #' @param live Whether to charge your live Stripe account
 #'
 #' @family shiny
-#' @import shiny
 #'
 #' @export
 observeStripeCharge <- function(status,
@@ -152,7 +153,7 @@ observeStripeCharge <- function(status,
                                 metadata=NULL,
                                 live=FALSE){
 
-  observeEvent(input$charge_card, {
+  shiny::observeEvent(input$charge_card, {
 
     email <- input$email
     cn <- as.character(input$card_number)
@@ -162,6 +163,12 @@ observeStripeCharge <- function(status,
     amount <- amount
     currency <- currency
     plan <- plan
+    idempotency <- status$idempotency
+
+    if(is.null(idempotency)) {
+      message("idempotency:", idempotency)
+      stop("Idempotency is null")
+    }
 
     stripeR_init(live=live)
 
@@ -185,7 +192,7 @@ observeStripeCharge <- function(status,
 
     ## A recurring charge to a pre-made payment plan in Stripe settings
     if(!is.null(plan)){
-      customer <- try(create_customer(idempotency=status$idempotency,
+      customer <- try(create_customer(idempotency=idempotency,
                                       source = token$id,
                                       email = email,
                                       plan = plan,
@@ -199,7 +206,7 @@ observeStripeCharge <- function(status,
 
 
     } else { ## one off payment
-      customer <- try(create_customer(idempotency=status$idempotency,
+      customer <- try(create_customer(idempotency=idempotency,
                                       email = email,
                                       account_balance = status$account_balance,
                                       metadata = metadata))
@@ -210,7 +217,7 @@ observeStripeCharge <- function(status,
         status$charge_message <- error.message(customer)
       }
 
-      charge <- try(charge_card(idempotency=status$idempotency,
+      charge <- try(charge_card(idempotency=idempotency,
                                 amount = amount,
                                 currency = currency,
                                 customer = customer,
@@ -245,9 +252,8 @@ updateStatus <- function(attempt, status){
             sep=", "
             )
 
+    ## set this to FALSE again to start another charge
     status$charged <- TRUE
     status$charge_message <- "Success"
-    ## new random string for potentially new transaction
-    status$idempotency <- idempotency()
   }
 }

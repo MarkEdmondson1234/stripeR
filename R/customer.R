@@ -54,7 +54,8 @@ create_customer <- function(idempotency,
   }
 
   req <- do_request("https://api.stripe.com/v1/customers",
-                    "POST",
+                    request_type="POST",
+                    idempotency=idempotency,
                     the_body = the_body)
 
   req
