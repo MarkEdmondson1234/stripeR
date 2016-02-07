@@ -1,3 +1,17 @@
+#' R6 environment to store authentication credentials
+#'
+#' Used to keep persistent state.
+#' @export
+stripeR_auth <- R6::R6Class(
+  "stripeR_auth",
+  public = list(
+    key = NULL
+  ),
+  lock_objects = F,
+  parent_env = emptyenv()
+)
+
+
 #' Set global configurations
 #'
 #' Run this at the start of every stripeR session.
@@ -18,16 +32,17 @@
 #' @export
 stripeR_init <- function(live=FALSE){
 
-  httr::reset_config()
-
   if(!live){
     key <- getOption("stripeR.secret_test")
   } else {
     key <- getOption("stripeR.secret_live")
   }
 
-  httr::set_config(httr::authenticate(user = key,
-                                      password = ""))
+#   httr::set_config(httr::authenticate(user = key,
+#                                       password = ""))
+
+  stripeR_auth$set("public","key", key, overwrite = TRUE)
+  invisible(return(key))
 }
 
 
@@ -50,6 +65,8 @@ do_request <- function(url,
                        customConfig = NULL,
                        limit=NULL){
 
+  key <- stripeR_auth$public_fields$key
+
   if(!is.null(limit)){
     if(limit > 100){
       new_limit <- 100
@@ -58,11 +75,11 @@ do_request <- function(url,
     }
   }
 
-
   arg_list <- list(url = url,
                    body = the_body,
                    encode = "form",
-                   httr::add_headers("Idempotency-Key" = idempotency)
+                   httr::add_headers("Idempotency-Key" = idempotency),
+                   httr::authenticate(user = key, password = "")
   )
 
   if(!is.null(customConfig)){

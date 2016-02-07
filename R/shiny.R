@@ -4,6 +4,11 @@
 #'
 #' @param ... Reactive data you can send into Stripe metadaata
 #'
+#' @details If a user has paid the $charged = TRUE else FALSE.
+#'
+#'   e.g. if status <- stripeShinyInit()
+#'   if(status$charged) "Thanks for paying"
+#'
 #' @family shiny
 #'
 #' @export
