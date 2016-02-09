@@ -12,6 +12,12 @@ stripeShinyInit(...)
 \description{
 Use at start of Shiny session
 }
+\details{
+If a user has paid the $charged = TRUE else FALSE.
+
+  e.g. if status <- stripeShinyInit()
+  if(status$charged) "Thanks for paying"
+}
 \seealso{
 Other shiny: \code{\link{observeStripeCharge}},
   \code{\link{renderStripeForm}},
