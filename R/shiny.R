@@ -260,5 +260,6 @@ updateStatus <- function(attempt, status){
     ## set this to FALSE again to start another charge
     status$charged <- TRUE
     status$charge_message <- "Success"
+    status$id <- attempt$id
   }
 }

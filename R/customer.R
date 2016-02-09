@@ -6,7 +6,7 @@
 #' @param description Arbitary string
 #' @param email customer's email address
 #' @param metadata A named list
-#' @param plan IDs of the plan to subscribe customer to
+#' @param plan ID of the plan to subscribe customer to
 #' @param quantity Quantity to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
 #' @param source A token from \link{get_token}
