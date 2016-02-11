@@ -188,7 +188,7 @@ retryRequest <- function(f){
   if(!the_request[["status_code"]] %in% c(200, 201)){
     warning("Request Status Code: ", the_request$status_code)
 
-    if(the_request[["status_code"]] %in% c(500, 501, 502, 503, 504)){
+    if(the_request[["status_code"]] %in% c(429, 500, 501, 502, 503, 504)){
       for(i in 1:5){
         warning("Trying again: ", i, " of 5")
         Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
