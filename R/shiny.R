@@ -15,8 +15,8 @@
 stripeShinyInit <- function(...){
   rv <- shiny::reactiveValues(charged=FALSE,
                               account_balance=NULL,
-                              coupon=NULL,
-                              plan=NULL,
+                              coupon="",
+                              plan="",
                               quantity=NULL,
                               trial_end=NULL,
                               statement_descriptor=NULL,
@@ -184,10 +184,10 @@ observeStripeCharge <- function(status,
     }
 
     token <- try(create_card_token(number=cn,
-                               exp_month=exp_month,
-                               exp_year=exp_year,
-                               cvc=cvc,
-                               name=email))
+                                   exp_month=exp_month,
+                                   exp_year=exp_year,
+                                   cvc=cvc,
+                                   name=email))
 
     if(is.error(token)){
       warning(error.message(token))
@@ -257,9 +257,15 @@ updateStatus <- function(attempt, status){
             sep=", "
             )
 
-    ## set this to FALSE again to start another charge
+    ## set this to FALSE again outside of this function
+    ## to allow another charge
     status$charged <- TRUE
     status$charge_message <- "Success"
-    status$id <- attempt$id
+    status$id             <- attempt$id
+    status$amount         <- attempt$amount
+    status$receipt_email  <- attempt$receipt_email
+    status$email          <- attempt$email
+    status$plan.id        <- attempt$subscriptions$data$plan.id
+    status$plan.amount    <- attempt$subscriptions$data$plan.amount
   }
 }
