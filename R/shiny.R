@@ -15,8 +15,8 @@
 stripeShinyInit <- function(...){
   rv <- shiny::reactiveValues(charged=FALSE,
                               account_balance=NULL,
-                              coupon="",
-                              plan="",
+                              coupon=NULL,
+                              plan=NULL,
                               quantity=NULL,
                               trial_end=NULL,
                               statement_descriptor=NULL,
