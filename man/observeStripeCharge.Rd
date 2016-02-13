@@ -4,26 +4,29 @@
 \alias{observeStripeCharge}
 \title{Charge Observer}
 \usage{
-observeStripeCharge(status, input, amount, currency = "gbp", plan = NULL,
-  metadata = NULL, live = FALSE)
+observeStripeCharge(status, input, currency = "gbp", metadata = NULL,
+  live = FALSE)
 }
 \arguments{
 \item{status}{A reactive list with element \code{charged}}
 
 \item{input}{Shiny input object}
 
-\item{amount}{The amount to charge}
-
 \item{currency}{Currency of amount}
-
-\item{plan}{Optional payment plan to subscribe to}
 
 \item{metadata}{Named list of meta data sent with charge/customer}
 
 \item{live}{Whether to charge your live Stripe account}
+
+\item{amount}{The amount to charge}
+
+\item{plan}{Optional payment plan to subscribe to}
 }
 \description{
 Needs to be present to do the charge with stripeForm
+}
+\details{
+You need to set the amount and payment plan via status$amount and status$plan
 }
 \seealso{
 Other shiny: \code{\link{renderStripeForm}},

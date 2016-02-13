@@ -4,16 +4,11 @@
 \alias{renderStripeForm}
 \title{Render Shiny payment form}
 \usage{
-renderStripeForm(status, amount, plan = "",
-  bottom_left = "Powered by Stripe", thanks = p(amount,
-  " paid successful.  Thanks!"))
+renderStripeForm(status, bottom_left = "Powered by Stripe",
+  thanks = p("Thanks!"))
 }
 \arguments{
 \item{status}{A reactive list with element \code{charged}}
-
-\item{amount}{String with amount to charge e.g. "€4.40"}
-
-\item{plan}{Optional payment plan to show}
 
 \item{bottom_left}{Text shown at bottom left}
 
@@ -28,6 +23,10 @@ A StripeR form to output with \link{stripeFormOutput} The form has
 }
 \description{
 Render Shiny payment form
+}
+\details{
+You need to set the formAmount and payment plan
+    via status$formAmount and status$formText
 }
 \seealso{
 Other shiny: \code{\link{observeStripeCharge}},

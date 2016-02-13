@@ -33,10 +33,12 @@ stripeShinyInit <- function(...){
 #' Render Shiny payment form
 #'
 #' @param status A reactive list with element \code{charged}
-#' @param amount String with amount to charge e.g. "€4.40"
-#' @param plan Optional payment plan to show
 #' @param bottom_left Text shown at bottom left
 #' @param thanks The thank you UI upon payment
+#'
+#' @details
+#'   You need to set the formAmount and payment plan
+#'     via status$formAmount and status$formText
 #'
 #' @return A StripeR form to output with \link{stripeFormOutput} The form has
 #'   these inputs: input$email input$card_number input$exp_month input$exp_year
@@ -48,11 +50,8 @@ stripeShinyInit <- function(...){
 #'
 #' @export
 renderStripeForm <- function(status,
-                             amount,
-                             plan="",
                              bottom_left="Powered by Stripe",
-                             thanks = p(amount, " paid successful.  Thanks!")){
-
+                             thanks = p("Thanks!")){
 
   shiny::renderUI({
       if(!status$charged){
@@ -63,11 +62,11 @@ renderStripeForm <- function(status,
         row1 <- shiny::fluidRow(
           shiny::column(width = 6,
                         shiny::h4("Amount"),
-                 shiny::strong(amount)
+                 shiny::strong(status$formAmount)
           ),
           shiny::column(width = 6,
-                        shiny::h4(ifelse(plan!="","Plan","")),
-                        shiny::helpText(plan)
+                        shiny::h4(ifelse(status$formText !="","Plan","")),
+                        shiny::helpText(status$formText)
           )
         )
 
@@ -147,14 +146,15 @@ stripeFormOutput <- function(outputId){
 #' @param metadata Named list of meta data sent with charge/customer
 #' @param live Whether to charge your live Stripe account
 #'
+#' @details
+#'   You need to set the amount and payment plan via status$amount and status$plan
+#'
 #' @family shiny
 #'
 #' @export
 observeStripeCharge <- function(status,
                                 input,
-                                amount,
                                 currency="gbp",
-                                plan=NULL,
                                 metadata=NULL,
                                 live=FALSE){
 
@@ -165,9 +165,9 @@ observeStripeCharge <- function(status,
     exp_month <- gsub(" ","0",sprintf("%2d",input$exp_month))
     exp_year <- as.character(input$exp_year)
     cvc <- as.character(input$cvc)
-    amount <- amount
+    amount <- status$amount
     currency <- currency
-    plan <- plan
+    plan <- status$plan
     idempotency <- status$idempotency
 
     if(is.null(idempotency)) {
@@ -197,6 +197,7 @@ observeStripeCharge <- function(status,
 
     ## A recurring charge to a pre-made payment plan in Stripe settings
     if(!is.null(plan)){
+      message("Customer created with plan")
       customer <- try(create_customer(idempotency=idempotency,
                                       source = token$id,
                                       email = email,
@@ -211,6 +212,7 @@ observeStripeCharge <- function(status,
 
 
     } else { ## one off payment
+      message("One off payment, no plan detected.")
       customer <- try(create_customer(idempotency=idempotency,
                                       email = email,
                                       account_balance = status$account_balance,
