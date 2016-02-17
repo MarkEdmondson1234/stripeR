@@ -17,6 +17,8 @@ do_request(url, request_type, idempotency = NULL, the_body = NULL,
 \item{the_body}{Body to send with the request, if any}
 
 \item{customConfig}{a list of custom configurations from httr}
+
+\item{limit}{Number of entries to list}
 }
 \value{
 the request content or NULL

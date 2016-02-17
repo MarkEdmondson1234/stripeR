@@ -91,7 +91,7 @@ get_customer <- function(customerId){
 #' @param plan ID of the plan to subscribe customer to
 #' @param quantity Quantity you'd like to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
-#' @param source A token, or dict with credit card details
+#' @param source A token from \link{get_token}
 #' @param tax_percent A positive decimal. Percentage added as tax.
 #' @param trail_end Unix timestamp when trial period ends. Needs plan.
 #'
@@ -163,7 +163,6 @@ delete_customer <- function(customerId){
 #' @param ending_before filter for pagination
 #' @param limit Between 1 and 100
 #' @param starting_after filter for pagination
-#' @param raw_data Default FALSE
 #'
 #' @return List object
 #'
@@ -172,8 +171,7 @@ delete_customer <- function(customerId){
 list_customers <- function(created=NULL,
                            ending_before=NULL,
                            limit=10,
-                           starting_before=NULL,
-                           raw_data=FALSE){
+                           starting_before=NULL){
 
   params <- list(
     created=created,

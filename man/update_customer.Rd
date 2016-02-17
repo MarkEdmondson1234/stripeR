@@ -25,7 +25,7 @@ update_customer(customerId, account_balance = NULL, coupon = NULL,
 
 \item{shipping}{Optional dictionary}
 
-\item{source}{A token, or dict with credit card details}
+\item{source}{A token from \link{get_token}}
 
 \item{plan}{ID of the plan to subscribe customer to}
 

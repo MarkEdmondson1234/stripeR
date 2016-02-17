@@ -5,7 +5,7 @@
 \title{List all customers}
 \usage{
 list_customers(created = NULL, ending_before = NULL, limit = 10,
-  starting_before = NULL, raw_data = FALSE)
+  starting_before = NULL)
 }
 \arguments{
 \item{created}{filter on created}
@@ -13,8 +13,6 @@ list_customers(created = NULL, ending_before = NULL, limit = 10,
 \item{ending_before}{filter for pagination}
 
 \item{limit}{Between 1 and 100}
-
-\item{raw_data}{Default FALSE}
 
 \item{starting_after}{filter for pagination}
 }

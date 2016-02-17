@@ -54,6 +54,7 @@ stripeR_init <- function(live=FALSE){
 #' @param idempotency A random string to ensure no repeat charges
 #' @param the_body Body to send with the request, if any
 #' @param customConfig a list of custom configurations from httr
+#' @param limit Number of entries to list
 #'
 #' @return the request content or NULL
 #'
