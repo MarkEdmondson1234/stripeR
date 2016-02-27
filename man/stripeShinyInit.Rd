@@ -4,9 +4,11 @@
 \alias{stripeShinyInit}
 \title{Stripe Shiny status object}
 \usage{
-stripeShinyInit(...)
+stripeShinyInit(ready = TRUE, ...)
 }
 \arguments{
+\item{ready}{If FALSE then you need to set to TRUE before Shiny form is shown}
+
 \item{...}{Reactive data you can send into Stripe metadaata}
 }
 \description{

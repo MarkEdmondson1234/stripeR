@@ -2,6 +2,7 @@
 #'
 #' Use at start of Shiny session
 #'
+#' @param ready If FALSE then you need to set to TRUE before Shiny form is shown
 #' @param ... Reactive data you can send into Stripe metadaata
 #'
 #' @details If a user has paid the $charged = TRUE else FALSE.
@@ -12,7 +13,7 @@
 #' @family shiny
 #'
 #' @export
-stripeShinyInit <- function(...){
+stripeShinyInit <- function(ready=TRUE, ...){
   rv <- shiny::reactiveValues(charged=FALSE,
                               account_balance=NULL,
                               coupon=NULL,
@@ -21,7 +22,8 @@ stripeShinyInit <- function(...){
                               trial_end=NULL,
                               statement_descriptor=NULL,
                               charge_message=NULL,
-                              idempotency=NULL)
+                              idempotency=NULL,
+                              ready=ready)
   extra <- list(...)
 
   lapply(names(extra), function(x) rv[[x]] <- extra[[x]])
@@ -54,6 +56,7 @@ renderStripeForm <- function(status,
                              thanks = p("Thanks!")){
 
   shiny::renderUI({
+    if(status$ready){
       if(!status$charged){
 
         ## once per transaction to prevent duplicates
@@ -62,7 +65,7 @@ renderStripeForm <- function(status,
         row1 <- shiny::fluidRow(
           shiny::column(width = 6,
                         shiny::h4("Amount"),
-                 shiny::strong(status$formAmount)
+                        shiny::strong(status$formAmount)
           ),
           shiny::column(width = 6,
                         shiny::h4(ifelse(status$formText !="","Plan","")),
@@ -75,47 +78,54 @@ renderStripeForm <- function(status,
 
         row4 <- shiny::fluidRow(
           shiny::column(width = 6,
-                 shiny::numericInput("exp_month",
-                                     "Expiry Month",
-                                     value = 1,
-                                     min=1, max=12,
-                                     step=1)
+                        shiny::numericInput("exp_month",
+                                            "Expiry Month",
+                                            value = 1,
+                                            min=1, max=12,
+                                            step=1)
           ),
           shiny::column(width = 6,
-                 shiny::numericInput("exp_year",
-                                     "Expiry Year",
-                                     value=2016,
-                                     min=2016, max=2100,
-                                     step=1)
+                        shiny::numericInput("exp_year",
+                                            "Expiry Year",
+                                            value=2016,
+                                            min=2016, max=2100,
+                                            step=1)
           )
         )
 
         row5 <- shiny::fluidRow(
           shiny::column(width = 4,
-                 shiny::textInput("cvc",
-                           "CVC",
-                           value=123)
+                        shiny::textInput("cvc",
+                                         "CVC",
+                                         value=123)
           ),
           shiny::column(width = 6, offset=2,
-                 shiny::br(),
-                 if(!is.null(status$charge_message)){
-                   shiny::helpText(status$charge_message)
-                 } else {
-                   shiny::helpText(bottom_left)
-                 }
+                        shiny::br(),
+                        if(!is.null(status$charge_message)){
+                          shiny::helpText(status$charge_message)
+                        } else {
+                          shiny::helpText(bottom_left)
+                        }
           )
         )
 
         row6 <- shiny::actionButton(inputId = "charge_card",
-                             label = "Charge Card",
-                             icon = icon("credit-card"),
-                             width = "100%",
-                             class="btn btn-success")
+                                    label = "Charge Card",
+                                    icon = icon("credit-card"),
+                                    width = "100%",
+                                    class="btn btn-success")
 
         shiny::tagList(row1, row2, row3, row4, row5, row6)
       } else {
         thanks
       }
+
+
+
+    } else {
+      message("StripeR form not ready")
+    }
+
     })
 
 
