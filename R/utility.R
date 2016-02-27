@@ -1,6 +1,6 @@
 #' Idempotency
 #'
-#' A random code to ensure no repeata charges
+#' A random code to ensure no repeats
 #'
 #' @return A random 15 digit hash
 #'

@@ -68,6 +68,10 @@ do_request <- function(url,
 
   key <- stripeR_auth$public_fields$key
 
+  if(is.null(key)){
+    stop("No authentication key found.  Have you ran stripeR_init()? ")
+  }
+
   if(!is.null(limit)){
     if(limit > 100){
       new_limit <- 100
@@ -203,6 +207,6 @@ retryRequest <- function(f){
 
   }
 
-  message("API fetch successful")
+  message("Stripe API fetch successful")
   the_request
 }

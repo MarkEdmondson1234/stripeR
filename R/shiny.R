@@ -210,19 +210,21 @@ observeStripeCharge <- function(status,
 
       updateStatus(customer, status)
 
+      ## TODO: add condition to update customer with new plan
+
 
     } else { ## one off payment
       message("One off payment, no plan detected.")
-      customer <- try(create_customer(idempotency=idempotency,
-                                      email = email,
-                                      account_balance = status$account_balance,
-                                      metadata = metadata))
-
-      ## Can still make a charge if error, just won't have customer object
-      if(is.error(customer)){
-        warning(error.message(customer))
-        status$charge_message <- error.message(customer)
-      }
+      # customer <- try(create_customer(idempotency=idempotency,
+      #                                 email = email,
+      #                                 account_balance = status$account_balance,
+      #                                 metadata = metadata))
+      #
+      # ## Can still make a charge if error, just won't have customer object
+      # if(is.error(customer)){
+      #   warning(error.message(customer))
+      #   status$charge_message <- error.message(customer)
+      # }
 
       charge <- try(charge_card(idempotency=idempotency,
                                 amount = amount,
@@ -241,6 +243,7 @@ observeStripeCharge <- function(status,
 
 
 updateStatus <- function(attempt, status){
+  str(attempt)
   if(is.error(attempt)){
     warning(error.message(attempt))
     status$charge_message <- error.message(attempt)
@@ -261,13 +264,17 @@ updateStatus <- function(attempt, status){
 
     ## set this to FALSE again outside of this function
     ## to allow another charge
-    status$charged <- TRUE
     status$charge_message <- "Success"
     status$id             <- attempt$id
     status$amount         <- attempt$amount
     status$receipt_email  <- attempt$receipt_email
     status$email          <- attempt$email
+    status$subscriptionId <- attempt$subscriptions$data[[1]]$id
     status$plan.id        <- attempt$subscriptions$data$plan.id
     status$plan.amount    <- attempt$subscriptions$data$plan.amount
+
+    ## set last so support data is present in reactiveValues
+    status$charged <- TRUE
+
   }
 }

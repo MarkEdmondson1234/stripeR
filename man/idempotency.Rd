@@ -10,6 +10,6 @@ idempotency()
 A random 15 digit hash
 }
 \description{
-A random code to ensure no repeata charges
+A random code to ensure no repeats
 }
 
