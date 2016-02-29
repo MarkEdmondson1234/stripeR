@@ -4,7 +4,7 @@
 \alias{update_subscription}
 \title{Update a subscription for a customer}
 \usage{
-update_subscription(subscriptionId, customerId, plan, prorate = TRUE,
+update_subscription(subscriptionId, customerId, plan = NULL, prorate = TRUE,
   proration_date = NULL, coupon = NULL, source = NULL, quantity = NULL,
   metadata = NULL, tax_percent = NULL, trial_end = NULL)
 }

@@ -93,7 +93,7 @@ get_subscription <- function(customerId, subscriptionId){
 #' @export
 update_subscription <- function(subscriptionId,
                                 customerId,
-                                plan,
+                                plan=NULL,
                                 prorate=TRUE,
                                 proration_date=NULL,
                                 coupon=NULL,
