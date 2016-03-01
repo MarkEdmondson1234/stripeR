@@ -39,6 +39,10 @@ create_subscription <- function(customerId,
                    tax_percent=tax_percent,
                    trial_end=trial_end)
 
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
+
   req <- do_request(url,
                     request_type="POST",
                     the_body = the_body)
@@ -119,6 +123,10 @@ update_subscription <- function(subscriptionId,
                    metadata=metadata,
                    tax_percent=tax_percent,
                    trial_end=trial_end)
+
+  if(!is.null(metadata)){
+    the_body <- c(the_body, make_meta(metadata))
+  }
 
   req <- do_request(url,
                     request_type="POST",
