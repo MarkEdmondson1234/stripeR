@@ -52,8 +52,9 @@ stripeShinyInit <- function(ready=TRUE, ...){
 #'
 #' @export
 renderStripeForm <- function(status,
-                             bottom_left="Powered by Stripe",
-                             thanks = p("Thanks!")){
+                             bottom_left=paste0("Powered by Stripe ",
+                                                shiny::icon("cc-stripe")),
+                             thanks = shiny::p("Thanks!")){
 
   shiny::renderUI({
     if(status$ready){

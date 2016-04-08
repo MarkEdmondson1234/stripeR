@@ -4,8 +4,8 @@
 \alias{renderStripeForm}
 \title{Render Shiny payment form}
 \usage{
-renderStripeForm(status, bottom_left = "Powered by Stripe",
-  thanks = p("Thanks!"))
+renderStripeForm(status, bottom_left = paste0("Powered by Stripe ",
+  shiny::icon("cc-stripe")), thanks = shiny::p("Thanks!"))
 }
 \arguments{
 \item{status}{A reactive list with element \code{charged}}
