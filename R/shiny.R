@@ -52,8 +52,7 @@ stripeShinyInit <- function(ready=TRUE, ...){
 #'
 #' @export
 renderStripeForm <- function(status,
-                             bottom_left=paste0("Powered by Stripe ",
-                                                shiny::icon("cc-stripe")),
+                             bottom_left="Powered by StripeR",
                              thanks = shiny::p("Thanks!")){
 
   shiny::renderUI({
@@ -112,7 +111,7 @@ renderStripeForm <- function(status,
 
         row6 <- shiny::actionButton(inputId = "charge_card",
                                     label = "Charge Card",
-                                    icon = icon("credit-card"),
+                                    icon = shiny::icon("cc-stripe"),
                                     width = "100%",
                                     class="btn btn-success")
 
