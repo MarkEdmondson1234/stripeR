@@ -1,183 +1,145 @@
-#' Stripe Shiny status object
+#' stripeRShiny UI
 #'
-#' Use at start of Shiny session
+#' Shiny Module for use with \link{stripeRShiny}
 #'
-#' @param ready If FALSE then you need to set to TRUE before Shiny form is shown
-#' @param ... Reactive data you can send into Stripe metadaata
+#' @param id Shiny id
 #'
-#' @details If a user has paid the $charged = TRUE else FALSE.
-#'
-#'   e.g. if status <- stripeShinyInit()
-#'   if(status$charged) "Thanks for paying"
-#'
-#' @family shiny
-#'
+#' @return A Shiny Stripe From
 #' @export
-stripeShinyInit <- function(ready=TRUE, ...){
-  rv <- shiny::reactiveValues(charged=FALSE,
-                              account_balance=NULL,
-                              coupon=NULL,
-                              plan=NULL,
-                              quantity=NULL,
-                              trial_end=NULL,
-                              statement_descriptor=NULL,
-                              charge_message=NULL,
-                              idempotency=NULL,
-                              ready=ready)
-  extra <- list(...)
+stripeRShinyUI <- function(id){
 
-  lapply(names(extra), function(x) rv[[x]] <- extra[[x]])
+  ns <- shiny::NS(id)
 
-  rv
+  shiny::tagList(
+    shiny::uiOutput(ns("form"))
+  )
 
 }
 
-#' Render Shiny payment form
+#' stripeRShiny
 #'
-#' @param status A reactive list with element \code{charged}
-#' @param bottom_left Text shown at bottom left
-#' @param thanks The thank you UI upon payment
+#' Shiny Module for use with \link{stripeRShinyUI}
 #'
-#' @details
-#'   You need to set the formAmount and payment plan
-#'     via status$formAmount and status$formText
+#' Call via status <- shiny::callModule(stripeRShiny, "your_id")
 #'
-#' @return A StripeR form to output with \link{stripeFormOutput} The form has
-#'   these inputs: input$email input$card_number input$exp_month input$exp_year
-#'   input$cvc
 #'
-#'   Action button: input$charge_card
+#' @param input shiny input
+#' @param output shiny output
+#' @param session shiny session
+#' @param amount Amount to charge, reactive
+#' @param plan reactive - If to place the customer on a plan configured in Stripe
+#' @param formAmount reactive - Text to display for amount in form
+#' @param formText reactive - Custom text for form
+#' @param bottom_left What to see in the bottom left of form
+#' @param thanks What to see once the form is successfully submitted
+#' @param live Whether to charge against the live Stripe account.
+#' @param metadata reactive - A named list of other data to send into stripeR
 #'
-#' @family shiny
+#' @return A reactive status object
 #'
 #' @export
-renderStripeForm <- function(status,
-                             bottom_left="Powered by StripeR",
-                             thanks = shiny::p("Thanks!")){
+stripeRShiny <- function(input, output, session,
+                         amount,
+                         plan,
+                         formAmount,
+                         formText,
+                         bottom_left="Powered by StripeR",
+                         thanks = shiny::p("Thanks!"),
+                         currency="gbp",
+                         live = FALSE,
+                         metadata=NULL){
 
-  shiny::renderUI({
-    if(status$ready){
-      if(!status$charged){
+  ns <- session$ns
 
-        ## once per transaction to prevent duplicates
-        status$idempotency <- idempotency()
+  status <- stripeShinyInit()
 
-        row1 <- shiny::fluidRow(
-          shiny::column(width = 6,
-                        shiny::h4("Amount"),
-                        shiny::strong(status$formAmount)
-          ),
-          shiny::column(width = 6,
-                        shiny::h4(ifelse(status$formText !="","Plan","")),
-                        shiny::helpText(status$formText)
-          )
-        )
+  output$form <-  shiny::renderUI({
 
-        row2 <- shiny::textInput("email","Email", placeholder = "Email for invoice")
-        row3 <- shiny::textInput("card_number", "Credit Card Number", value=4242424242424242)
+    if(!status$charged){
 
-        row4 <- shiny::fluidRow(
-          shiny::column(width = 6,
-                        shiny::numericInput("exp_month",
-                                            "Expiry Month",
-                                            value = 1,
-                                            min=1, max=12,
-                                            step=1)
-          ),
-          shiny::column(width = 6,
-                        shiny::numericInput("exp_year",
-                                            "Expiry Year",
-                                            value=2016,
-                                            min=2016, max=2100,
-                                            step=1)
-          )
-        )
+      formAmount <- formAmount()
+      formText <- formText()
 
-        row5 <- shiny::fluidRow(
-          shiny::column(width = 4,
-                        shiny::textInput("cvc",
-                                         "CVC",
-                                         value=123)
-          ),
-          shiny::column(width = 6, offset=2,
-                        shiny::br(),
-                        if(!is.null(status$charge_message)){
-                          shiny::helpText(status$charge_message)
-                        } else {
-                          shiny::helpText(bottom_left)
-                        }
-          )
-        )
-
-        row6 <- shiny::actionButton(inputId = "charge_card",
-                                    label = "Charge Card",
-                                    icon = shiny::icon("cc-stripe"),
-                                    width = "100%",
-                                    class="btn btn-success")
-
-        shiny::tagList(row1, row2, row3, row4, row5, row6)
-      } else {
-        thanks
+      if(is.null(formAmount)){
+        formAmount <- as.character(amount())
       }
 
+      ## once per transaction to prevent duplicates
+      status$idempotency <- idempotency()
 
+      row1 <- shiny::fluidRow(
+        shiny::column(width = 6,
+                      shiny::h4("Amount"),
+                      shiny::strong(formAmount)
+        ),
+        shiny::column(width = 6,
+                      shiny::h4(formText),
+                      shiny::helpText(formText)
+        )
+      )
 
+      row2 <- shiny::textInput(ns("email"),"Email", placeholder = "Email for invoice")
+      row3 <- shiny::textInput(ns("card_number"), "Credit Card Number", value=4242424242424242)
+
+      row4 <- shiny::fluidRow(
+        shiny::column(width = 6,
+                      shiny::numericInput(ns("exp_month"),
+                                          "Expiry Month",
+                                          value = 1,
+                                          min=1, max=12,
+                                          step=1)
+        ),
+        shiny::column(width = 6,
+                      shiny::numericInput(ns("exp_year"),
+                                          "Expiry Year",
+                                          value=2016,
+                                          min=2016, max=2100,
+                                          step=1)
+        )
+      )
+
+      row5 <- shiny::fluidRow(
+        shiny::column(width = 4,
+                      shiny::textInput(ns("cvc"),
+                                       "CVC",
+                                       value=123)
+        ),
+        shiny::column(width = 6, offset=2,
+                      shiny::br(),
+                      if(!is.null(status$charge_message)){
+                        shiny::helpText(status$charge_message)
+                      } else {
+                        shiny::helpText(bottom_left)
+                      }
+        )
+      )
+
+      row6 <- shiny::actionButton(ns("charge_card"),
+                                  label = "Charge Card",
+                                  icon = shiny::icon("cc-stripe"),
+                                  width = "100%",
+                                  class="btn btn-success")
+
+      shiny::tagList(row1, row2, row3, row4, row5, row6)
     } else {
-      message("StripeR form not ready")
+      thanks
     }
 
-    })
-
-
-}
-
-#' stripeForm Shiny Output
-#'
-#' @param outputId What \link{renderStripeForm} outputs to.
-#'
-#' @return The Stripe Form in Shiny UI.
-#'
-#' @family shiny
-#'
-#' @export
-stripeFormOutput <- function(outputId){
-  shiny::uiOutput(outputId)
-}
-
-#' Charge Observer
-#'
-#' Needs to be present to do the charge with stripeForm
-#'
-#' @param status A reactive list with element \code{charged}
-#' @param input Shiny input object
-#' @param amount The amount to charge
-#' @param currency Currency of amount
-#' @param plan Optional payment plan to subscribe to
-#' @param metadata Named list of meta data sent with charge/customer
-#' @param live Whether to charge your live Stripe account
-#'
-#' @details
-#'   You need to set the amount and payment plan via status$amount and status$plan
-#'
-#' @family shiny
-#'
-#' @export
-observeStripeCharge <- function(status,
-                                input,
-                                currency="gbp",
-                                metadata=NULL,
-                                live=FALSE){
+  })
 
   shiny::observeEvent(input$charge_card, {
 
+    ## from outside module
+    amount <- amount()
+    plan <- plan()
+    currency <- currency
+
+    ## inside module
     email <- input$email
     cn <- as.character(input$card_number)
     exp_month <- gsub(" ","0",sprintf("%2d",input$exp_month))
     exp_year <- as.character(input$exp_year)
     cvc <- as.character(input$cvc)
-    amount <- status$amount
-    currency <- currency
-    plan <- status$plan
     idempotency <- status$idempotency
 
     if(is.null(idempotency)) {
@@ -216,7 +178,7 @@ observeStripeCharge <- function(status,
                                       coupon = status$coupon,
                                       quantity = status$quantity,
                                       trial_end = status$trial_end,
-                                      metadata = metadata))
+                                      metadata = metadata()))
 
       updateStatus(customer, status)
 
@@ -225,16 +187,6 @@ observeStripeCharge <- function(status,
 
     } else { ## one off payment
       message("One off payment, no plan detected.")
-      # customer <- try(create_customer(idempotency=idempotency,
-      #                                 email = email,
-      #                                 account_balance = status$account_balance,
-      #                                 metadata = metadata))
-      #
-      # ## Can still make a charge if error, just won't have customer object
-      # if(is.error(customer)){
-      #   warning(error.message(customer))
-      #   status$charge_message <- error.message(customer)
-      # }
 
       charge <- try(charge_card(idempotency=idempotency,
                                 amount = amount,
@@ -249,9 +201,46 @@ observeStripeCharge <- function(status,
     }
 
   })
+
+  return(status)
+
 }
 
 
+
+#' Stripe Shiny status object
+#'
+#' Use at start of Shiny session
+#'
+#' @details If a user has paid the $charged = TRUE else FALSE.
+#'
+#'   e.g. if status <- stripeShinyInit()
+#'   if(status$charged) "Thanks for paying"
+#'
+#' @family shiny
+#' @keywords internal
+stripeShinyInit <- function(){
+
+  shiny::reactiveValues(charged=FALSE,
+                        account_balance=NULL,
+                        coupon=NULL,
+                        plan=NULL,
+                        quantity=NULL,
+                        trial_end=NULL,
+                        statement_descriptor=NULL,
+                        charge_message=NULL,
+                        idempotency=NULL)
+}
+
+#' updateStatus
+#'
+#' @param attempt stripeR request
+#' @param status status object ot update
+#'
+#' @return Updates the status object with values in attempt
+#'
+#' @family shiny
+#' @keywords internal
 updateStatus <- function(attempt, status){
   str(attempt)
   if(is.error(attempt)){
@@ -279,9 +268,12 @@ updateStatus <- function(attempt, status){
     status$amount         <- attempt$amount
     status$receipt_email  <- attempt$receipt_email
     status$email          <- attempt$email
+
+    ## doesn't support mupltiple subscriptions!
+    ## todo: filter to subscription with $subscriptions$data[[X]]$created == now
     status$subscriptionId <- attempt$subscriptions$data[[1]]$id
-    status$plan.id        <- attempt$subscriptions$data$plan.id
-    status$plan.amount    <- attempt$subscriptions$data$plan.amount
+    status$plan.id        <- attempt$subscriptions$data[[1]]$plan$id
+    status$plan.amount    <- attempt$subscriptions$data[[1]]$plan$amount
 
     ## set last so support data is present in reactiveValues
     status$charged <- TRUE

@@ -4,12 +4,7 @@
 \alias{stripeShinyInit}
 \title{Stripe Shiny status object}
 \usage{
-stripeShinyInit(ready = TRUE, ...)
-}
-\arguments{
-\item{ready}{If FALSE then you need to set to TRUE before Shiny form is shown}
-
-\item{...}{Reactive data you can send into Stripe metadaata}
+stripeShinyInit()
 }
 \description{
 Use at start of Shiny session
@@ -21,8 +16,7 @@ If a user has paid the $charged = TRUE else FALSE.
   if(status$charged) "Thanks for paying"
 }
 \seealso{
-Other shiny: \code{\link{observeStripeCharge}},
-  \code{\link{renderStripeForm}},
-  \code{\link{stripeFormOutput}}
+Other shiny: \code{\link{updateStatus}}
 }
+\keyword{internal}
 
