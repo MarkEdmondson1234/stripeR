@@ -22,4 +22,3 @@ Set up your Stripe API keys first via:
 
 Then run \code{stripeR_init()} to initialise your Stripe API session.
 }
-

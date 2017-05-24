@@ -59,6 +59,7 @@ stripeR_init <- function(live=FALSE){
 #' @return the request content or NULL
 #'
 #' @keywords internal
+#' @importFrom httr modify_url add_headers authenticate
 do_request <- function(url,
                        request_type,
                        idempotency=NULL,
@@ -150,9 +151,12 @@ do_request <- function(url,
 #' @return content if it is there, or NULL
 #'
 #' @keywords internal
+#' @importFrom httr content
+#' @importFrom jsonlite fromJSON
 checkRequest <- function(req){
 
-  content <- httr::content(req, as = "text", type = "application/json",encoding = "UTF-8")
+  content <- httr::content(req, as = "text", type = "application/json",
+                           encoding = "UTF-8")
 
   if(!is.null(content)){
     content <- jsonlite::fromJSON(content, simplifyVector = FALSE, flatten = TRUE)
@@ -187,6 +191,7 @@ checkRequest <- function(req){
 #' @param f A function of a http request
 #'
 #' @keywords internal
+#' @importFrom stats runif
 retryRequest <- function(f){
   the_request <- try(f)
 
@@ -196,7 +201,7 @@ retryRequest <- function(f){
     if(the_request[["status_code"]] %in% c(429, 500, 501, 502, 503, 504)){
       for(i in 1:5){
         warning("Trying again: ", i, " of 5")
-        Sys.sleep((2 ^ i) + runif(n = 1, min = 0, max = 1))
+        Sys.sleep((2 ^ i) + stats::runif(n = 1, min = 0, max = 1))
         the_request <- try(f)
         if(!is.error(the_request)) break
       }

@@ -21,4 +21,3 @@ updateStatus
 Other shiny: \code{\link{stripeShinyInit}}
 }
 \keyword{internal}
-

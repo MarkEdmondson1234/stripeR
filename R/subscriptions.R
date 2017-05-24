@@ -166,7 +166,7 @@ cancel_subscription <- function(customerId, subscriptionId, at_period_end=FALSE)
 #' @param customerId The ID of the customer
 #' @param ending_before filter for pagination
 #' @param limit Between 1 and 100
-#' @param starting_after filter for pagination
+#' @param starting_before filter for pagination
 #'
 #' @return List object
 #'

@@ -1,5 +1,7 @@
 # stripeR
 
+[![Travis-CI Build Status](https://travis-ci.org/MarkEdmondson1234/stripeR.svg?branch=master)](https://travis-ci.org/MarkEdmondson1234/stripeR)
+
 An interface with the [Stripe](https://stripe.com) API for user payments.
 
 [API docs](https://stripe.com/docs/api/curl)

@@ -12,4 +12,3 @@ stripeR_auth
 Used to keep persistent state.
 }
 \keyword{datasets}
-

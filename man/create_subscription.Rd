@@ -40,4 +40,3 @@ Other subscriptions: \code{\link{cancel_subscription}},
   \code{\link{list_subscriptions}},
   \code{\link{update_subscription}}
 }
-

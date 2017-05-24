@@ -27,4 +27,3 @@ the request content or NULL
 Do a request
 }
 \keyword{internal}
-

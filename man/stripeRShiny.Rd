@@ -27,6 +27,8 @@ stripeRShiny(input, output, session, amount, plan, formAmount, formText,
 
 \item{thanks}{What to see once the form is successfully submitted}
 
+\item{currency}{The currency the amount is in}
+
 \item{live}{Whether to charge against the live Stripe account.}
 
 \item{metadata}{reactive - A named list of other data to send into stripeR}
@@ -40,4 +42,3 @@ Shiny Module for use with \link{stripeRShinyUI}
 \details{
 Call via status <- shiny::callModule(stripeRShiny, "your_id")
 }
-

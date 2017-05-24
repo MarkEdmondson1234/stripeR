@@ -18,7 +18,7 @@ list_charges(created = NULL, customer = NULL, ending_before = NULL,
 
 \item{source}{A filter based on the source of the charge}
 
-\item{starting_after}{A cursor used for pagination}
+\item{starting_before}{A cursor used for pagination}
 }
 \value{
 A charge object
@@ -31,4 +31,3 @@ Other charges: \code{\link{capture_charge}},
   \code{\link{charge_card}}, \code{\link{get_charge}},
   \code{\link{update_charge}}
 }
-

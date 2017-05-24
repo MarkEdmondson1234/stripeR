@@ -19,4 +19,3 @@ If a user has paid the $charged = TRUE else FALSE.
 Other shiny: \code{\link{updateStatus}}
 }
 \keyword{internal}
-

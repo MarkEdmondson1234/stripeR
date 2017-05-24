@@ -15,4 +15,3 @@ List object
 \description{
 Get the balance history of your Stripe account
 }
-

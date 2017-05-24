@@ -88,12 +88,12 @@ get_customer <- function(customerId){
 #' @param description Arbitary string
 #' @param email customer's email address
 #' @param metadata A named list
-#' @param plan ID of the plan to subscribe customer to
-#' @param quantity Quantity you'd like to apply to subscription. Needs plan.
+#' # @param plan ID of the plan to subscribe customer to
+#' # @param quantity Quantity you'd like to apply to subscription. Needs plan.
 #' @param shipping Optional dictionary
 #' @param source A token from \link{get_token}
-#' @param tax_percent A positive decimal. Percentage added as tax.
-#' @param trail_end Unix timestamp when trial period ends. Needs plan.
+#' # @param tax_percent A positive decimal. Percentage added as tax.
+#' # @param trail_end Unix timestamp when trial period ends. Needs plan.
 #'
 #' @details
 #'   Setting \code{account_balance} to negative means the customer will have a credit.
@@ -162,12 +162,13 @@ delete_customer <- function(customerId){
 #' @param created filter on created
 #' @param ending_before filter for pagination
 #' @param limit Between 1 and 100
-#' @param starting_after filter for pagination
+#' @param starting_before filter for pagination
 #'
 #' @return List object
 #'
 #' @family customers
 #' @export
+#' @importFrom httr GET
 list_customers <- function(created=NULL,
                            ending_before=NULL,
                            limit=10,
@@ -183,7 +184,7 @@ list_customers <- function(created=NULL,
   url <- httr::modify_url("https://api.stripe.com/v1/customers",
                           query = params)
 
-  req <- do_request(url,"GET", limit=limit)
+  req <- do_request(url, "GET", limit=limit)
 
   content <- req$data
 

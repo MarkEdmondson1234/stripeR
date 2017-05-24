@@ -18,4 +18,3 @@ List object
 \description{
 Get the balance transaction
 }
-

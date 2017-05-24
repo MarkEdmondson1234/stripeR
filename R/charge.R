@@ -21,10 +21,12 @@
 #'   a source belonging to the customer.
 #'
 #' If you do not pass a customer ID,
-#'   the source you provide must be a token from \link{create_token}
+#'   the source you provide must be a token from \code{\link{create_card_token}}
 #'
 #' @family charges
 #' @export
+#' @importFrom httr POST
+#'
 charge_card <- function(amount,
                         currency,
                         idempotency,
@@ -162,7 +164,7 @@ capture_charge <- function(chargeId,
 #' @param ending_before A cursor used for pagination
 #' @param limit between 1 and 100 objects
 #' @param source A filter based on the source of the charge
-#' @param starting_after A cursor used for pagination
+#' @param starting_before A cursor used for pagination
 #'
 #'
 #' @return A charge object

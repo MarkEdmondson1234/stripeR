@@ -14,7 +14,7 @@ list_customers(created = NULL, ending_before = NULL, limit = 10,
 
 \item{limit}{Between 1 and 100}
 
-\item{starting_after}{filter for pagination}
+\item{starting_before}{filter for pagination}
 }
 \value{
 List object
@@ -27,4 +27,3 @@ Other customers: \code{\link{create_customer}},
   \code{\link{delete_customer}},
   \code{\link{get_customer}}, \code{\link{update_customer}}
 }
-
