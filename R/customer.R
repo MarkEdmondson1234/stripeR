@@ -168,6 +168,7 @@ delete_customer <- function(customerId){
 #'
 #' @family customers
 #' @export
+#' @importFrom httr GET
 list_customers <- function(created=NULL,
                            ending_before=NULL,
                            limit=10,
@@ -183,7 +184,7 @@ list_customers <- function(created=NULL,
   url <- httr::modify_url("https://api.stripe.com/v1/customers",
                           query = params)
 
-  req <- do_request(url,"GET", limit=limit)
+  req <- do_request(url, "GET", limit=limit)
 
   content <- req$data
 

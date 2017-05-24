@@ -25,6 +25,8 @@
 #'
 #' @family charges
 #' @export
+#' @importFrom httr POST
+#'
 charge_card <- function(amount,
                         currency,
                         idempotency,
