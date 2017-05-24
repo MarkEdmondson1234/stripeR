@@ -51,4 +51,3 @@ Other customers: \code{\link{delete_customer}},
   \code{\link{get_customer}}, \code{\link{list_customers}},
   \code{\link{update_customer}}
 }
-

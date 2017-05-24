@@ -15,4 +15,3 @@ A Shiny Stripe From
 \description{
 Shiny Module for use with \link{stripeRShiny}
 }
-

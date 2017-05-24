@@ -46,11 +46,10 @@ If you pass a customer ID, the source must be the ID of
   a source belonging to the customer.
 
 If you do not pass a customer ID,
-  the source you provide must be a token from \link{create_token}
+  the source you provide must be a token from \code{\link{create_card_token}}
 }
 \seealso{
 Other charges: \code{\link{capture_charge}},
   \code{\link{get_charge}}, \code{\link{list_charges}},
   \code{\link{update_charge}}
 }
-

@@ -14,7 +14,7 @@ list_subscriptions(customerId, ending_before = NULL, limit = 10,
 
 \item{limit}{Between 1 and 100}
 
-\item{starting_after}{filter for pagination}
+\item{starting_before}{filter for pagination}
 }
 \value{
 List object
@@ -28,4 +28,3 @@ Other subscriptions: \code{\link{cancel_subscription}},
   \code{\link{get_subscription}},
   \code{\link{update_subscription}}
 }
-

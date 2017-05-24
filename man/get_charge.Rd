@@ -20,4 +20,3 @@ Other charges: \code{\link{capture_charge}},
   \code{\link{charge_card}}, \code{\link{list_charges}},
   \code{\link{update_charge}}
 }
-

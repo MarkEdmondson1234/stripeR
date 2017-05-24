@@ -32,12 +32,15 @@ stripeRShinyUI <- function(id){
 #' @param formText reactive - Custom text for form
 #' @param bottom_left What to see in the bottom left of form
 #' @param thanks What to see once the form is successfully submitted
+#' @param currency The currency the amount is in
 #' @param live Whether to charge against the live Stripe account.
 #' @param metadata reactive - A named list of other data to send into stripeR
 #'
 #' @return A reactive status object
 #'
 #' @export
+#' @importFrom shiny p fluidRow renderUI column h4 strong helpText
+#' @importFrom shiny numericInput textInput br actionButton tagList observeEvent
 stripeRShiny <- function(input, output, session,
                          amount,
                          plan,
@@ -219,6 +222,7 @@ stripeRShiny <- function(input, output, session,
 #'
 #' @family shiny
 #' @keywords internal
+#' @importFrom shiny reactiveValues
 stripeShinyInit <- function(){
 
   shiny::reactiveValues(charged=FALSE,
@@ -241,8 +245,9 @@ stripeShinyInit <- function(){
 #'
 #' @family shiny
 #' @keywords internal
+#' @importFrom utils str
 updateStatus <- function(attempt, status){
-  str(attempt)
+  utils::str(attempt)
   if(is.error(attempt)){
     warning(error.message(attempt))
     status$charge_message <- error.message(attempt)

@@ -21,19 +21,15 @@ update_customer(customerId, account_balance = NULL, coupon = NULL,
 
 \item{email}{customer's email address}
 
-\item{metadata}{A named list}
+\item{metadata}{A named list
+# @param plan ID of the plan to subscribe customer to
+# @param quantity Quantity you'd like to apply to subscription. Needs plan.}
 
 \item{shipping}{Optional dictionary}
 
-\item{source}{A token from \link{get_token}}
-
-\item{plan}{ID of the plan to subscribe customer to}
-
-\item{quantity}{Quantity you'd like to apply to subscription. Needs plan.}
-
-\item{tax_percent}{A positive decimal. Percentage added as tax.}
-
-\item{trail_end}{Unix timestamp when trial period ends. Needs plan.}
+\item{source}{A token from \link{get_token}
+# @param tax_percent A positive decimal. Percentage added as tax.
+# @param trail_end Unix timestamp when trial period ends. Needs plan.}
 }
 \value{
 List object
@@ -52,4 +48,3 @@ Other customers: \code{\link{create_customer}},
   \code{\link{delete_customer}},
   \code{\link{get_customer}}, \code{\link{list_customers}}
 }
-

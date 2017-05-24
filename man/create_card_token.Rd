@@ -27,4 +27,3 @@ Not implemented: address
 Other tokens: \code{\link{create_bank_token}},
   \code{\link{get_token}}
 }
-

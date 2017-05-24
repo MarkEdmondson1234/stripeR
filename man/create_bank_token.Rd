@@ -31,4 +31,3 @@ Store this token instead of bank details
 Other tokens: \code{\link{create_card_token}},
   \code{\link{get_token}}
 }
-
