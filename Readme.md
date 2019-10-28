@@ -64,6 +64,8 @@ token <- create_card_token(number=4242424242424242,
 charge_details <- charge_card(amount = 100, 
                               currency = "eur", 
                               source = token$id, 
+                              # ensure only this API call makes a charge
+                              idempotency=idempotency(), 
                               receipt_email="mark@buyme.com",
                               description = "Nice stuff")
 

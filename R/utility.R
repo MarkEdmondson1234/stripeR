@@ -1,11 +1,13 @@
 #' Idempotency
 #'
 #' A random code to ensure no repeats
+#' @param seed Random seed
 #'
 #' @return A random 15 digit hash
 #'
 #' @export
-idempotency <- function(){
+idempotency <- function(seed = 1234567){
+  set.seed(seed)
   paste(sample(c(LETTERS, letters, 0:9), 15, TRUE),collapse="")
 }
 

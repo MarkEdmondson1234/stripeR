@@ -4,7 +4,10 @@
 \alias{idempotency}
 \title{Idempotency}
 \usage{
-idempotency()
+idempotency(seed = 1234567)
+}
+\arguments{
+\item{seed}{Random seed}
 }
 \value{
 A random 15 digit hash
