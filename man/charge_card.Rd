@@ -4,10 +4,10 @@
 \alias{charge_card}
 \title{Charge a credit card}
 \usage{
-charge_card(amount, currency, idempotency, customer = NULL, source = NULL,
-  receipt_email = NULL, application_fee = NULL, capture = TRUE,
-  description = NULL, metadata = NULL, shipping = NULL,
-  statement_descriptor = NULL)
+charge_card(amount, currency, idempotency, customer = NULL,
+  source = NULL, receipt_email = NULL, application_fee = NULL,
+  capture = TRUE, description = NULL, metadata = NULL,
+  shipping = NULL, statement_descriptor = NULL)
 }
 \arguments{
 \item{amount}{Amount in smallest currency unit}
@@ -53,3 +53,4 @@ Other charges: \code{\link{capture_charge}},
   \code{\link{get_charge}}, \code{\link{list_charges}},
   \code{\link{update_charge}}
 }
+\concept{charges}

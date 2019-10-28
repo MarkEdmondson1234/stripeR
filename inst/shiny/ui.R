@@ -3,18 +3,16 @@ library(stripeR)
 
 fluidPage(
 
-  # Application title
   titlePanel("StripeR Demo"),
 
-  # Sidebar with a slider input for the number of bins
+  # A Stripe Form
   sidebarLayout(
     sidebarPanel(
-      stripeFormOutput("stripeForm")
+      stripeRShinyUI("stripe1")
     ),
 
-    # Show a plot of the generated distribution
     mainPanel(
-      plotOutput("distPlot")
+
     )
   )
 )

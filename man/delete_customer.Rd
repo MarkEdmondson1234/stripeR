@@ -20,3 +20,4 @@ Other customers: \code{\link{create_customer}},
   \code{\link{get_customer}}, \code{\link{list_customers}},
   \code{\link{update_customer}}
 }
+\concept{customers}

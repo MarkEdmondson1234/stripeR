@@ -29,3 +29,4 @@ Other charges: \code{\link{charge_card}},
   \code{\link{get_charge}}, \code{\link{list_charges}},
   \code{\link{update_charge}}
 }
+\concept{charges}

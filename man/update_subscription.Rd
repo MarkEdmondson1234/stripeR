@@ -4,9 +4,10 @@
 \alias{update_subscription}
 \title{Update a subscription for a customer}
 \usage{
-update_subscription(subscriptionId, customerId, plan = NULL, prorate = TRUE,
-  proration_date = NULL, coupon = NULL, source = NULL, quantity = NULL,
-  metadata = NULL, tax_percent = NULL, trial_end = NULL)
+update_subscription(subscriptionId, customerId, plan = NULL,
+  prorate = TRUE, proration_date = NULL, coupon = NULL,
+  source = NULL, quantity = NULL, metadata = NULL,
+  tax_percent = NULL, trial_end = NULL)
 }
 \arguments{
 \item{subscriptionId}{The ID of the subscription}
@@ -46,3 +47,4 @@ Other subscriptions: \code{\link{cancel_subscription}},
   \code{\link{get_subscription}},
   \code{\link{list_subscriptions}}
 }
+\concept{subscriptions}

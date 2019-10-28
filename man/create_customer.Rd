@@ -6,8 +6,8 @@
 \usage{
 create_customer(idempotency, account_balance = NULL, coupon = NULL,
   description = NULL, email = NULL, metadata = NULL, plan = NULL,
-  quantity = NULL, shipping = NULL, source = NULL, tax_percent = NULL,
-  trial_end = NULL)
+  quantity = NULL, shipping = NULL, source = NULL,
+  tax_percent = NULL, trial_end = NULL)
 }
 \arguments{
 \item{idempotency}{A random string to ensure no repeat charges}
@@ -51,3 +51,4 @@ Other customers: \code{\link{delete_customer}},
   \code{\link{get_customer}}, \code{\link{list_customers}},
   \code{\link{update_customer}}
 }
+\concept{customers}

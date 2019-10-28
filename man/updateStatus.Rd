@@ -20,4 +20,5 @@ updateStatus
 \seealso{
 Other shiny: \code{\link{stripeShinyInit}}
 }
+\concept{shiny}
 \keyword{internal}

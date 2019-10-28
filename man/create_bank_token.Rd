@@ -4,8 +4,8 @@
 \alias{create_bank_token}
 \title{Create a bank account token}
 \usage{
-create_bank_token(account_number, country, currency, routing_number = NULL,
-  name = NULL, account_holder_type = NULL)
+create_bank_token(account_number, country, currency,
+  routing_number = NULL, name = NULL, account_holder_type = NULL)
 }
 \arguments{
 \item{account_number}{The bank account number}
@@ -31,3 +31,4 @@ Store this token instead of bank details
 Other tokens: \code{\link{create_card_token}},
   \code{\link{get_token}}
 }
+\concept{tokens}

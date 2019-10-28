@@ -87,23 +87,11 @@ library(stripeR)
 
 function(input, output, session){
 
-  ## sets up Shiny for StripeR
-  status <- stripeShinyInit()
-
-  ## Creates a form for a user to enter payment details.
-  output$stripeForm <- renderStripeForm(status,
-                                        amount="GBP20.00",
-                                        plan="Agency - GBP20.00 per month")
-
-  ## Watches for the form submission and makes the charges
-  ## 
-  ## Make a plan in your Stripe interface for recurring charges
-  ## Or plan=NULL for a one-off payment
-  observeStripeCharge(status,
-                      input,
-                      amount = 2000,
-                      currency = "gbp",
-                      plan="example")
+  callModule(stripeRShiny, "stripe1",
+             amount=2000,
+             plan="example",
+             formAmount=reactive("$20.00"),
+             formText=reactive("Please pay $20.00"))
 
 }
 ```
@@ -120,7 +108,7 @@ fluidPage(
   # A Stripe Form
   sidebarLayout(
     sidebarPanel(
-      stripeFormOutput("stripeForm")
+      stripeRShinyUI("stripe1")
     ),
 
     mainPanel(
@@ -128,6 +116,3 @@ fluidPage(
     )
   )
 )
-
-```
-

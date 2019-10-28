@@ -19,3 +19,4 @@ A token as created by \link{create_card_token}
 Other tokens: \code{\link{create_bank_token}},
   \code{\link{create_card_token}}
 }
+\concept{tokens}

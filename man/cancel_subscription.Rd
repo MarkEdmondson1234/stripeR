@@ -25,3 +25,4 @@ Other subscriptions: \code{\link{create_subscription}},
   \code{\link{list_subscriptions}},
   \code{\link{update_subscription}}
 }
+\concept{subscriptions}
